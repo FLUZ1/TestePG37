@@ -1,0 +1,44 @@
+[
+  {
+    "id": "RE-001",
+    "titulo": "Relatório Controle Tecnológico - Julho e Agosto",
+    "descricao": "Identificação de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes aos meses de Julho e Agosto de 2024.",
+    "url": "01. RE.QPS - Controle Tecnológico Julho e Agosto.pdf",
+    "data": "2024-08-31"
+  },
+  {
+    "id": "RE-002",
+    "titulo": "Relatório Técnico - Ausência de Proteção Passiva Tubulações Shaft",
+    "descricao": "Apontamento da ausência de selagem corta-fogo em tubulações de shafts na Torre Residencial (PGR), divergindo da IT-09 dos Bombeiros e NBRs.",
+    "url": "02. RE.QPS - Proteção Passiva Shaft Tubulação.pdf",
+    "data": "2024-10-23"
+  },
+  {
+    "id": "RE-003",
+    "titulo": "Relatório Controle Tecnológico - Mês de Setembro",
+    "descricao": "Identificação de reincidência de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes ao mês de Setembro de 2024.",
+    "url": "03. RE.QPS - Controle Tecnológico Setembro.pdf",
+    "data": "2024-09-30"
+  },
+  {
+    "id": "RE-004",
+    "titulo": "Relatório de visita em campo - Residencial PG 37",
+    "descricao": "Inspeção em campo identificando não conformidades em alvenaria (fogo e acústica), selagem de shafts, escadas, instalações elétricas, contrapiso e instalações hidráulicas.",
+    "url": "04. RE.QPS - Relatório de visita_Residencial PG 37.pdf",
+    "data": "2024-11-26"
+  },
+  {
+    "id": "RE-005",
+    "titulo": "Relatório Técnico - Concreto (Tempo de Lançamento)",
+    "descricao": "Identificação de lançamento de concreto no Centro Médico com tempo de operação superior aos 150 minutos permitidos pela NBR 7212.",
+    "url": "05. RE.QPS - Concreto.pdf",
+    "data": "2024-11-28"
+  },
+  {
+    "id": "RE-006",
+    "titulo": "Relatório Controle Tecnológico - Mês de Outubro",
+    "descricao": "Identificação de reincidência de grande volume de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes ao mês de Outubro de 2024.",
+    "url": "06. RE.QPS - Controle Tecnológico Outubro.pdf",
+    "data": "2024-10-30"
+  }
+]
