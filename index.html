@@ -404,6 +404,7 @@
             padding: 15px 20px;
             text-align: left;
             border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle; /* <-- ESTA É A CORREÇÃO */
         }
 
         #tabela-relatorios thead th {
@@ -682,8 +683,9 @@
     </div>
     <footer>
         <div class="container">
-            <label for="csv-upload" class="upload-label">Atualizar dados com arquivo CSV</label>
-            <input type="file" id="csv-upload" accept=".csv,.json" style="display: none;"> </div>
+            <label for="csv-upload" class="upload-label">Atualizar dados com arquivo CSV/JSON</label>
+            <input type="file" id="csv-upload" accept=".csv,.json" style="display: none;">
+        </div>
     </footer>
 
 <script>
