@@ -368,16 +368,14 @@
             border-top: 1px solid #dee2e6;
             margin-top: 40px;
         }
-        .upload-label {
-            background-color: var(--cor-primaria);
-            color: var(--cor-texto-claro);
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .upload-label:hover {
-            background-color: #013346; /* A darker shade of primary */
+        
+        /* Estilo para o texto do rodapé */
+        footer p {
+            text-align: center;
+            margin: 0;
+            padding: 0; /* Padding removido do <p> e mantido no <footer> */
+            color: #555;
+            font-size: 0.9em;
         }
 
 
@@ -404,7 +402,7 @@
             padding: 15px 20px;
             text-align: left;
             border-bottom: 1px solid #f0f0f0;
-            vertical-align: middle; /* <-- ESTA É A CORREÇÃO */
+            vertical-align: middle; /* <-- CORREÇÃO DE ALINHAMENTO */
         }
 
         #tabela-relatorios thead th {
@@ -511,10 +509,10 @@
         <nav>
             <ul>
                 <li><a id="nav-home" class="active">Página Principal</a></li>
-                <li><a id="nav-dashboard">Dashboard</a></li>
-                <li><a id="nav-report">Relatório</a></li>
+                <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li> <li><a id="nav-report">Relatório</a></li>
                 <li><a id="nav-apontamentos">Apontamentos</a></li>
-                <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li> </ul>
+                <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -524,12 +522,12 @@
             <p>
                 Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento, e facilitar a tomada de decisão baseada em dados.
             </p>
-            <a id="cta-button" class="cta-button">Aceder ao Dashboard</a>
+            <a id="cta-button" class="cta-button">Acessar o Ata de Reunião - Dashboard</a>
         </section>
     </main>
 
     <div id="dashboard-page" class="container" style="display: none;">
-        <h1>Dashboard de Ações - Segurança & Qualidade</h1>
+        <h1>Ata de Reunião - Dashboard</h1>
 
         <div class="kpi-container">
             <div class="kpi-card kpi-geral">
@@ -621,11 +619,12 @@
     
     <div id="apontamentos-page" class="container" style="display: none;">
         <h1>Apontamentos</h1>
-        <p>Carregando site externo: <a href="https://fluz1.github.io/SnagR37/" target="_blank">https://fluz1.github.io/SnagR37/</a></p>
-        <p style="font-size: 0.9em; color: #666;">
-            <strong>Nota:</strong> Se o conteúdo abaixo não carregar, o site externo pode não permitir a incorporação.
-        </p>
-        <div class="external-site-container" style="height: 90vh; border: 1px solid #ccc; background: #eee;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+             <p style="margin: 0;">Carregando: <strong>https://fluz1.github.io/SnagR37/</strong></p>
+             <button id="btn-fullscreen-external" style="padding: 8px 15px; background-color: var(--cor-primaria); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Maximizar</button>
+        </div>
+
+        <div id="external-site-container" class="external-site-container" style="height: 90vh; border: 1px solid #ccc; background: #eee;">
              <iframe
                 src="https://fluz1.github.io/SnagR37/"
                 width="100%"
@@ -682,10 +681,7 @@
         </div>
     </div>
     <footer>
-        <div class="container">
-            <label for="csv-upload" class="upload-label">Atualizar dados com arquivo CSV/JSON</label>
-            <input type="file" id="csv-upload" accept=".csv,.json" style="display: none;">
-        </div>
+        <p style="text-align: center; margin: 0; padding: 1rem; color: #555; font-size: 0.9em;">Felipe Luz - Desenvolvimento</p>
     </footer>
 
 <script>
@@ -1452,6 +1448,10 @@
         const closePdfModalBtn = document.getElementById('close-pdf-modal');
         const pdfIframe = document.getElementById('pdf-view-iframe');
         const tabelaRelatoriosBody = document.getElementById('tabela-relatorios-tbody');
+        
+        // --- NOVOS SELETORES PARA MAXIMIZAR SITE EXTERNO ---
+        const fullscreenExternalBtn = document.getElementById('btn-fullscreen-external');
+        const externalSiteContainer = document.getElementById('external-site-container');
 
 
         // --- FUNÇÃO PARA MOSTRAR PÁGINAS (ATUALIZADA) ---
@@ -1486,9 +1486,7 @@
         // --- FIM DA NAVEGAÇÃO ---
 
 
-        // --- CSV Upload Logic (mantido como no seu arquivo) ---
-        const csvUpload = document.getElementById('csv-upload');
-        if(csvUpload) csvUpload.addEventListener('change', handleFileUpload);
+        // --- REMOVIDO: CSV Upload Logic ---
         
         // --- All other dashboard-related setup ---
         const resetBtn = document.getElementById('resetFilters');
@@ -1783,146 +1781,8 @@
             });
         }
         
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const fileContent = e.target.result;
-                try {
-                    let newData = [];
-                    // Verifica se é JSON ou CSV e processa
-                    if (file.name.endsWith('.json')) {
-                        newData = JSON.parse(fileContent);
-                        // Adiciona uma verificação simples para ver se são dados de ata ou de relatório
-                        if (newData.length > 0 && newData[0].seq) {
-                             rawData = newData; // Substitui dados da ata
-                             resetAndReloadDashboard();
-                             alert('Dados da ata atualizados com sucesso via JSON!');
-                        } else {
-                            alert('Arquivo JSON não parece ser dados de ata válidos.');
-                        }
-                    } else if (file.name.endsWith('.csv')) {
-                        newData = parseCSV(fileContent);
-                         if (newData.length > 0) {
-                            rawData = newData; 
-                            resetAndReloadDashboard();
-                            alert('Dashboard atualizado com sucesso via CSV!');
-                        } else {
-                            alert('O ficheiro CSV parece estar vazio ou num formato incorreto.');
-                        }
-                    } else {
-                         alert('Formato de arquivo não suportado. Use .csv ou .json.');
-                         return;
-                    }
-
-                } catch (error) {
-                    alert('Ocorreu um erro ao processar o arquivo. Verifique o formato e tente novamente.\nErro: ' + error.message);
-                    console.error("File Processing Error:", error);
-                } finally {
-                    event.target.value = null; // Limpa o input
-                }
-            };
-            reader.readAsText(file, 'UTF-8');
-        }
-
-
-         function parseCSV(text) {
-             const lines = text.split(/\r\n|\n/).filter(line => line.trim() !== '');
-            const data = [];
-            const headerIndex = lines.findIndex(line =>
-                line.toLowerCase().includes('item sequencial') &&
-                line.toLowerCase().includes('data da ata') &&
-                line.toLowerCase().includes('tema') &&
-                line.toLowerCase().includes('assunto')
-            );
-
-            if (headerIndex === -1) {
-                throw new Error('Cabeçalho do CSV não encontrado ou em formato inválido. Verifique se as colunas "Item Sequencial", "Data da Ata", "Tema", "Assunto" existem.');
-            }
-
-            const headers = lines[headerIndex].split(';').map(h => h.trim());
-            const colMap = {
-                seq: headers.indexOf('Item Sequencial'),
-                ata: headers.indexOf('nº da Ata'),
-                item: headers.indexOf('Item'),
-                dataAta: headers.indexOf('Data da Ata'),
-                tema: headers.indexOf('Tema'),
-                assunto: headers.indexOf('Assunto'),
-                descricao: headers.indexOf('Descrição'),
-                acao: headers.indexOf('Ação / Pendências'),
-                responsavel: headers.indexOf('Responsável'),
-                dataConclusao: headers.indexOf('Data de Conclusão'),
-                status: headers.indexOf('Status'),
-            };
-
-            if (colMap.seq === -1 || colMap.dataAta === -1 || colMap.tema === -1 || colMap.assunto === -1) {
-                throw new Error('Colunas obrigatórias (Item Sequencial, Data da Ata, Tema, Assunto) não encontradas no cabeçalho do CSV.');
-            }
-
-            for (let i = headerIndex + 1; i < lines.length; i++) {
-                const values = lines[i].split(/;(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/^"|"$/g, '').trim());
-                const seqNum = parseInt(values[colMap.seq]);
-                if (isNaN(seqNum)) continue;
-
-                const dateConvert = (dateStr) => {
-                     if (!dateStr || dateStr.trim() === '') return null;
-                    const parts = dateStr.split('/');
-                    if(parts.length !== 3 || isNaN(parseInt(parts[0])) || isNaN(parseInt(parts[1])) || isNaN(parseInt(parts[2]))) {
-                        console.warn(`Formato de data inválido: "${dateStr}" na linha ${i + 1}.`);
-                        return null;
-                    }
-                    if (parts[2].length !== 4) {
-                         console.warn(`Ano inválido: "${dateStr}" na linha ${i + 1}.`);
-                        return null;
-                    }
-                    return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-                };
-
-                const temaValue = colMap.tema !== -1 ? (values[colMap.tema] || null) : null;
-                const assuntoValue = colMap.assunto !== -1 ? (values[colMap.assunto] || null) : null;
-
-                data.push({
-                    seq: seqNum,
-                    ata: colMap.ata !== -1 ? (values[colMap.ata] || null) : null,
-                    item: colMap.item !== -1 ? (values[colMap.item] || null) : null,
-                    dataAta: dateConvert(values[colMap.dataAta]),
-                    tema: temaValue ? String(temaValue) : null,
-                    assunto: assuntoValue ? String(assuntoValue) : null,
-                    descricao: colMap.descricao !== -1 ? (values[colMap.descricao] || null) : null,
-                    acao: colMap.acao !== -1 ? (values[colMap.acao] || null) : null,
-                    responsavel: colMap.responsavel !== -1 ? (values[colMap.responsavel] || null) : null,
-                    dataConclusao: colMap.dataConclusao !== -1 ? dateConvert(values[colMap.dataConclusao]) : null,
-                    status: colMap.status !== -1 ? (values[colMap.status] || null) : null,
-                });
-            }
-            return data;
-        }
-
-
-        function resetAndReloadDashboard() {
-             const statusOptions = document.getElementById('statusFilter')?.querySelector('.options-container');
-            const temaOptions = document.getElementById('temaFilter')?.querySelector('.options-container');
-            const assuntoOptions = document.getElementById('assuntoFilter')?.querySelector('.options-container');
-
-            if (statusOptions) statusOptions.innerHTML = '';
-            if (temaOptions) temaOptions.innerHTML = '';
-            if (assuntoOptions) assuntoOptions.innerHTML = '';
-
-            document.querySelectorAll('.multiselect .select-box span').forEach((span) => {
-                const parentId = span.closest('.multiselect')?.id;
-                if (parentId === 'statusFilter') span.textContent = 'Todos os Status';
-                else if (parentId === 'temaFilter') span.textContent = 'Todos os Temas';
-                else if (parentId === 'assuntoFilter') span.textContent = 'Todos os Assuntos';
-            });
-            
-             document.querySelectorAll('.multiselect input[type="checkbox"]').forEach(cb => cb.checked = false);
-
-            populateFilters();
-            updateDashboard();
-        }
-
+        // --- FUNÇÕES DE UPLOAD REMOVIDAS ---
+        // handleFileUpload, parseCSV, resetAndReloadDashboard
 
         Chart.register(ChartDataLabels);
         
@@ -2095,6 +1955,22 @@
             });
         }
         // --- FIM DO SCRIPT TELA CHEIA ---
+
+        // --- NOVO SCRIPT PARA TELA CHEIA DO SITE EXTERNO ---
+        if (fullscreenExternalBtn && externalSiteContainer) {
+            fullscreenExternalBtn.addEventListener('click', () => {
+                if (externalSiteContainer.requestFullscreen) {
+                    externalSiteContainer.requestFullscreen();
+                } else if (externalSiteContainer.mozRequestFullScreen) { /* Firefox */
+                    externalSiteContainer.mozRequestFullScreen();
+                } else if (externalSiteContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    externalSiteContainer.webkitRequestFullscreen();
+                } else if (externalSiteContainer.msRequestFullscreen) { /* IE/Edge */
+                    externalSiteContainer.msRequestFullscreen();
+                }
+            });
+        }
+        // --- FIM DO NOVO SCRIPT ---
 
         // Listener global de clique (ATUALIZADO)
         window.addEventListener('click', (event) => {
