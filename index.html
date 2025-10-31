@@ -154,7 +154,17 @@
         .em-aberto .value { color: var(--cor-alerta); }
         .total-itens .value { color: var(--cor-primaria); }
 
-        /* Estilos de tendência removidos */
+        .kpi-trend {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 1.2em; /* Garante espaço mesmo vazio */
+        }
+        /* Trend styles kept for potential future use, but content is cleared by JS */
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        .trend-stable { color: #6c757d; }
+
 
         .filters {
             display: flex;
@@ -175,7 +185,7 @@
             background-color: #f8f9fa;
             cursor: pointer;
         }
-        
+
         .multiselect {
             position: relative;
             min-width: 180px;
@@ -294,15 +304,15 @@
         }
 
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.5); 
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
         }
 
         .modal-content {
@@ -496,12 +506,14 @@
 <body>
 
     <header>
-        <div class="logo">Análise de Ações</div> <nav>
+        <div class="logo">Análise de Ações</div>
+        <nav>
             <ul>
                 <li><a id="nav-home" class="active">Página Principal</a></li>
                 <li><a id="nav-dashboard">Dashboard</a></li>
                 <li><a id="nav-report">Relatório</a></li>
-                <li><a id="nav-apontamentos">Apontamentos</a></li> <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li> </ul>
+                <li><a id="nav-apontamentos">Apontamentos</a></li>
+                <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li> </ul>
         </nav>
     </header>
 
@@ -679,7 +691,7 @@
     const iconView = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 2c-4.001 0-7.271 2.91-8.129 7C4.729 16.09 7.999 19 12 19s7.271-2.91 8.129-7C19.271 7.91 16.001 5 12 5zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`;
     const iconDownload = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"/></svg>`;
     const iconShare = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18 8c.552 0 1 .448 1 1v11.008c0 .55-.448.992-1 .992H6c-.552 0-1-.448-1-.992V9c0-.552.448-1 1-1h3V6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V8h3zM8 8h8V7.5h-4V8H8v11h8V9H8v9zm5-4.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V5h2V3.5zM7 11h2v2H7v-2zm0 3h2v2H7v-2zm0 3h2v2H7v-2z"/></svg>`;
-
+    
     // DADOS ATUAIS DO SEU ARQUIVO
     let rawData = [
       {
@@ -1366,8 +1378,8 @@
         if (!tbody) return; // Sai se a tabela não estiver na página
 
         try {
-            // Tenta carregar o manifesto JSON
-            const response = await fetch('relatoriosManifest.json'); // ATENÇÃO: Crie este arquivo!
+            // --- ALTERAÇÃO AQUI: Carregando 'Manifest.json' ---
+            const response = await fetch('Manifest.json'); 
             if (!response.ok) {
                 throw new Error(`Erro ao carregar o manifesto: ${response.statusText}`);
             }
@@ -1412,7 +1424,7 @@
             }
         } catch (error) {
             console.error("Falha ao carregar relatórios:", error);
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (relatoriosManifest.json). Verifique o console.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (Manifest.json). Verifique o console.</td></tr>`;
         }
     }
 
@@ -1771,32 +1783,50 @@
         
         function handleFileUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const csvContent = e.target.result;
-                    try {
-                        // O arquivo original só tem parseCSV, mantendo isso
-                        const newData = parseCSV(csvContent);
-                        if (newData.length > 0) {
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileContent = e.target.result;
+                try {
+                    let newData = [];
+                    // Verifica se é JSON ou CSV e processa
+                    if (file.name.endsWith('.json')) {
+                        newData = JSON.parse(fileContent);
+                        // Adiciona uma verificação simples para ver se são dados de ata ou de relatório
+                        if (newData.length > 0 && newData[0].seq) {
+                             rawData = newData; // Substitui dados da ata
+                             resetAndReloadDashboard();
+                             alert('Dados da ata atualizados com sucesso via JSON!');
+                        } else {
+                            alert('Arquivo JSON não parece ser dados de ata válidos.');
+                        }
+                    } else if (file.name.endsWith('.csv')) {
+                        newData = parseCSV(fileContent);
+                         if (newData.length > 0) {
                             rawData = newData; 
                             resetAndReloadDashboard();
-                            alert('Dashboard atualizado com sucesso!');
+                            alert('Dashboard atualizado com sucesso via CSV!');
                         } else {
                             alert('O ficheiro CSV parece estar vazio ou num formato incorreto.');
                         }
-                    } catch (error) {
-                        alert('Ocorreu um erro ao processar o ficheiro CSV. Verifique o formato e tente novamente.\nErro: ' + error.message);
-                        console.error("CSV Parsing Error:", error);
-                    } finally {
-                        event.target.value = null;
+                    } else {
+                         alert('Formato de arquivo não suportado. Use .csv ou .json.');
+                         return;
                     }
-                };
-                reader.readAsText(file, 'UTF-8');
-            }
+
+                } catch (error) {
+                    alert('Ocorreu um erro ao processar o arquivo. Verifique o formato e tente novamente.\nErro: ' + error.message);
+                    console.error("File Processing Error:", error);
+                } finally {
+                    event.target.value = null; // Limpa o input
+                }
+            };
+            reader.readAsText(file, 'UTF-8');
         }
 
-        function parseCSV(text) {
+
+         function parseCSV(text) {
              const lines = text.split(/\r\n|\n/).filter(line => line.trim() !== '');
             const data = [];
             const headerIndex = lines.findIndex(line =>
@@ -1890,6 +1920,7 @@
             populateFilters();
             updateDashboard();
         }
+
 
         Chart.register(ChartDataLabels);
         
