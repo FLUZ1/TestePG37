@@ -513,9 +513,125 @@
             background-color: #fff;
         }
         
+        
+        /* --- NOVOS ESTILOS DE UX INTEGRADOS --- */
+
+        /* Estilos da Tela de Carregamento */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cor-fundo);
+            display: none; /* Inicia oculto, JS controla a exibição */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .loading-content p {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--cor-primaria); /* Usa a cor primária original */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Caixas de Texto - Feedback Visual */
+        input[type="text"],
+        textarea,
+        select {
+          width: 100%;
+          padding: 12px;
+          margin: 8px 0;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 1rem;
+          transition: all 0.3s ease-in-out;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+          border-color: var(--cor-primaria);
+          outline: none;
+          box-shadow: 0 0 8px rgba(1, 69, 92, 0.2); /* Sombra com a cor primária original */
+        }
+        
+        /* Hover suave para tabela e cards */
+        #dataTable tbody tr:hover,
+        .relatorio-card:hover {
+            background-color: #f8f9fa; /* Um cinza bem claro */
+            transform: scale(1.005);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+
+        /* Modal - Transição Suave */
+        .modal {
+          transition: opacity 0.3s ease-in-out;
+        }
+        
+        .modal-content {
+             transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Animação do modal reescrita para usar a classe 'show' que o JS pode adicionar */
+        .modal {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Scrollbar Customizado */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: var(--cor-primaria);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--cor-secundaria); /* Hover com a cor secundária */
+        }
+        
     </style>
 </head>
 <body>
+
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Carregando conteúdo, por favor aguarde...</p>
+      </div>
+    </div>
 
     <header>
         <div class="logo">Qualidade e Segurança</div>
@@ -946,7 +1062,7 @@
         "tema": "Qualidade",
         "assunto": "TRF paredes entre unidades autônomas e áreas comuns",
         "descricao": "CTP - Foi realizada a revisão do projeto de vedação em 30/04/2025,  porém permanece a dúvida do atendimento ao TRF do sistema aplicado,  entre as unidades autônomas e as áreas comuns (assunto tratado no RE.QPS 04 de 26/11/24). CTP questiona se existe ensaio prévio/ou certificação do sistema. 25/07/2025 Item mantido. 08/08/25 Item mantido, aguardando retorno.",
-        "acao": "BNX-C - Será avaliado junto ao setor de projetos. 05/06/25 Item será reanalisado junto a Diretoria. 18/06/25 Realizará ensaio para verificar atendimento a IT-09. Ensaio previsto para julho/2025 (em andamento). 16/07/25 Ensaio previsto para acontecer no dia 18/07 na tipologia unidade/hall, na tipologia unidade/unidade o sistema placo é certificado, será enviado os laudos de ambas tipologias. 25/07/25 item mantido BNX-C informou que ensaio foi realizado e aprovado, será encaminhado relatórios do ensaio e relatório da plako. 08/08/25 Item mantido, aguardando formalização com os relatórios por parte da BNX-C. 05/09/25 Foram enviados o ensaio de compartimentação e as declarações de conformidado da Placo, atendendo ao requisito IT.",
+        "acao": "BNX-C - Será avaliado junto ao setor de projetos. 05/06/25 Item será reanalisado junto a Diretoria. 18/06/25 Realizará ensaio para verificar atendimento a IT-09. Ensaio previsto para julho/2025 (em anda mento). 16/07/25 Ensaio previsto para acontecer no dia 18/07 na tipologia unidade/hall, na tipologia unidade/unidade o sistema placo é certificado, será enviado os laudos de ambas tipologias. 25/07/25 item mantido BNX-C informou que ensaio foi realizado e aprovado, será encaminhado relatórios do ensaio e relatório da plako. 08/08/25 Item mantido, aguardando formalização com os relatórios por parte da BNX-C. 05/09/25 Foram enviados o ensaio de compartimentação e as declarações de conformidado da Placo, atendendo ao requisito IT.",
         "responsavel": "BNX-C",
         "dataConclusao": "2025-09-05",
         "status": "Fechado"
@@ -972,7 +1088,7 @@
         "tema": "Qualidade",
         "assunto": "Revestimento cerâmico",
         "descricao": "CTP - Foram apresentados exemplos de  problemas com revestimento cerâmico que serão apontados quando da vistoria no revestimento cerâmico.",
-        "acao": "DEX-C – Apresentará apontamentos ao time de campo para melhoria no processo executivo",
+        "acao": " BNX-C – Apresentará apontamentos ao time de campo para melhoria no processo executivo",
         "responsavel": "BNX-C",
         "dataConclusao": "",
         "status": "Informativo"
@@ -1431,8 +1547,33 @@
         }
     }
 
+    // --- NOVAS FUNÇÕES DE CARREGAMENTO ---
+    // Função para mostrar a tela de carregamento
+    function showLoading() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.display = 'flex'; // Exibe a tela de carregamento
+        loadingScreen.style.opacity = '1';
+      }
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // Função para ocultar a tela de carregamento
+    function hideLoading() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0'; // Animação de fade-out
+        setTimeout(() => {
+          loadingScreen.style.display = 'none'; // Remove completamente após a animação
+        }, 300); // Tempo igual à duração da transição no CSS
+      }
+    }
+    // --- FIM DAS NOVAS FUNÇÕES ---
+
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        
+        showLoading(); // <-- MOSTRAR CARREGAMENTO
+
         // --- SELETORES DE NAVEGAÇÃO E PÁGINAS (ATUALIZADOS) ---
         const navHome = document.getElementById('nav-home');
         const navDashboard = document.getElementById('nav-dashboard');
@@ -1810,9 +1951,8 @@
         if (dashboardPage && dashboardPage.style.display !== 'none') {
             initializeDashboard();
         }
-        // Carrega a tabela de relatórios específicos assim que a página é carregada
-        carregarTabelaRelatorios(); 
-
+        
+        await carregarTabelaRelatorios(); // <-- ESPERA OS RELATÓRIOS CARREGAREM
 
         // Listener para inicializar o dashboard quando ele for exibido pela navegação
         if (navDashboard) {
@@ -1864,12 +2004,16 @@
                                             ? "Não há ação definida."
                                             : String(itemData.acao);
                     modal.style.display = 'block';
+                    modal.classList.add('show'); // Para nova animação
                 }
             });
         }
          if (closeModalBtn) {
             closeModalBtn.addEventListener('click', () => {
-                if(modal) modal.style.display = 'none';
+                if(modal) {
+                     modal.classList.remove('show');
+                    setTimeout(() => modal.style.display = 'none', 300); // Sincroniza com a transição
+                }
             });
         }
 
@@ -1885,7 +2029,10 @@
                     e.preventDefault();
                     const url = viewBtn.dataset.url;
                     if (pdfIframe) pdfIframe.src = url;
-                    if (pdfViewModal) pdfViewModal.style.display = 'block';
+                    if (pdfViewModal) {
+                        pdfViewModal.style.display = 'block';
+                        pdfViewModal.classList.add('show');
+                    }
                 }
 
                 // Ação: Baixar PDF
@@ -1936,8 +2083,13 @@
         // Ação: Fechar o novo modal de PDF
         if (closePdfModalBtn) {
             closePdfModalBtn.addEventListener('click', () => {
-                if (pdfViewModal) pdfViewModal.style.display = 'none';
-                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe para parar o carregamento
+                if (pdfViewModal) {
+                    pdfViewModal.classList.remove('show');
+                    setTimeout(() => {
+                        pdfViewModal.style.display = 'none';
+                        if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                    }, 300);
+                }
             });
         }
 
@@ -1987,17 +2139,23 @@
             }
             // Fecha modal de detalhes
             if (modal && event.target == modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
             }
             // Fecha novo modal de PDF
             if (pdfViewModal && event.target == pdfViewModal) {
-                pdfViewModal.style.display = 'none';
-                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                pdfViewModal.classList.remove('show');
+                setTimeout(() => {
+                    pdfViewModal.style.display = 'none';
+                    if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                }, 300);
             }
         });
+        
+        hideLoading(); // <-- OCULTAR CARREGAMENTO
+
     });
 </script>
 
 </body>
 </html>
-
