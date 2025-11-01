@@ -294,8 +294,6 @@
         .status-Fechado { background-color: #eaf2d1; color: #5a701b; }
         .status-Aberta { background-color: #f8d7da; color: #721c24; }
         .status-Informativo { background-color: #d1ecf1; color: #0c5460; }
-        
-        /* --- ESTAS LINHAS FORAM CORRIGIDAS --- */
         .status-Em-analise { background-color: #fff3cd; color: #856404; }
         .status-Critica { background-color: #FF2800; color: #ffffff; }
         
@@ -413,6 +411,20 @@
             margin: 0 0 8px 0;
             color: var(--cor-primaria);
             font-size: 1.1rem;
+            display: flex; /* Para alinhar o ID e o Título */
+            align-items: center; /* Alinha verticalmente */
+        }
+        
+        /* --- NOVO ESTILO PARA O ID DO RELATÓRIO --- */
+        .relatorio-id {
+            font-weight: 600;
+            color: var(--cor-primaria);
+            background-color: #e9ecef; /* Cinza claro do footer */
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em; /* Um pouco menor que o título */
+            margin-right: 10px; /* Espaço entre o ID e o Título */
+            white-space: nowrap; /* Impede que o ID quebre a linha */
         }
         
         .relatorio-card .relatorio-info .descricao {
@@ -652,7 +664,7 @@
         <section class="hero">
             <h1>Gestão da Qualidade e Segurança</h1>
             <p>
-                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados, também é possível interagir com dados dos apontamentos para implementar planos de ação.
+                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados.
             </p>
             <a id="cta-button" class="cta-button">Acessar</a>
         </section>
@@ -1520,7 +1532,10 @@
                     const card = `
                         <div class="relatorio-card">
                             <div class="relatorio-info">
-                                <h3>${relatorio.titulo || 'Sem Título'}</h3>
+                                <h3>
+                                    <span class="relatorio-id">${relatorio.id || 'N/A'}</span>
+                                    ${relatorio.titulo || 'Sem Título'}
+                                </h3>
                                 <p class="descricao">${relatorio.descricao || 'Sem descrição'}</p>
                                 <span class="data">${dataFormatada}</span>
                             </div>
