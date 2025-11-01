@@ -294,8 +294,11 @@
         .status-Fechado { background-color: #eaf2d1; color: #5a701b; }
         .status-Aberta { background-color: #f8d7da; color: #721c24; }
         .status-Informativo { background-color: #d1ecf1; color: #0c5460; }
-        .status-Em-análise { background-color: #fff3cd; color: #856404; }
-        .status-Crítica { background-color: #f5c6cb; color: var(--cor-critico); }
+        
+        /* --- ESTAS LINHAS FORAM CORRIGIDAS --- */
+        .status-Em-analise { background-color: #fff3cd; color: #856404; }
+        .status-Critica { background-color: #FF2800; color: #ffffff; }
+        
         td .status-badge {
             padding: 5px 10px;
             border-radius: 12px;
@@ -649,7 +652,7 @@
         <section class="hero">
             <h1>Gestão da Qualidade e Segurança</h1>
             <p>
-                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados.
+                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados, também é possível interagir com dados dos apontamentos para implementar planos de ação.
             </p>
             <a id="cta-button" class="cta-button">Acessar</a>
         </section>
@@ -1819,7 +1822,7 @@
                             switch (status) {
                                 case 'Fechado': return '#9FC419';
                                 case 'Aberta': return '#dc3545';
-                                case 'Crítica': return '#b30000';
+                                case 'Crítica': return '#FF2800'; /* <-- COR ALTERADA */
                                 case 'Informativo': return '#6c757d';
                                 case 'Em análise': return '#ffc107';
                                 default: return '#cccccc';
