@@ -1,44 +1,107 @@
 [
   {
-    "id": "RE-001",
+    "id": "01",
     "titulo": "Relatório Controle Tecnológico - Julho e Agosto",
     "descricao": "Identificação de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes aos meses de Julho e Agosto de 2024.",
     "url": "01. RE.QPS - Controle Tecnológico Julho e Agosto.pdf",
     "data": "2024-08-31"
   },
   {
-    "id": "RE-002",
+    "id": "02",
     "titulo": "Relatório Técnico - Ausência de Proteção Passiva Tubulações Shaft",
     "descricao": "Apontamento da ausência de selagem corta-fogo em tubulações de shafts na Torre Residencial (PGR), divergindo da IT-09 dos Bombeiros e NBRs.",
     "url": "02. RE.QPS - Proteção Passiva Shaft Tubulação.pdf",
     "data": "2024-10-23"
   },
   {
-    "id": "RE-003",
+    "id": "03",
     "titulo": "Relatório Controle Tecnológico - Mês de Setembro",
     "descricao": "Identificação de reincidência de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes ao mês de Setembro de 2024.",
     "url": "03. RE.QPS - Controle Tecnológico Setembro.pdf",
     "data": "2024-09-30"
   },
   {
-    "id": "RE-004",
+    "id": "04",
     "titulo": "Relatório de visita em campo - Residencial PG 37",
     "descricao": "Inspeção em campo identificando não conformidades em alvenaria (fogo e acústica), selagem de shafts, escadas, instalações elétricas, contrapiso e instalações hidráulicas.",
     "url": "04. RE.QPS - Relatório de visita_Residencial PG 37.pdf",
     "data": "2024-11-26"
   },
   {
-    "id": "RE-005",
+    "id": "05",
     "titulo": "Relatório Técnico - Concreto (Tempo de Lançamento)",
     "descricao": "Identificação de lançamento de concreto no Centro Médico com tempo de operação superior aos 150 minutos permitidos pela NBR 7212.",
     "url": "05. RE.QPS - Concreto.pdf",
     "data": "2024-11-28"
   },
   {
-    "id": "RE-006",
+    "id": "06",
     "titulo": "Relatório Controle Tecnológico - Mês de Outubro",
     "descricao": "Identificação de reincidência de grande volume de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa especificados em projeto, referentes ao mês de Outubro de 2024.",
     "url": "06. RE.QPS - Controle Tecnológico Outubro.pdf",
     "data": "2024-10-30"
+  },
+  {
+    "id": "07",
+    "titulo": "Relatório Técnico - Estrutura Centro Médico",
+    "descricao": "Apontamentos técnicos sobre falhas na estrutura de concreto da Torre do Centro Médico, incluindo bicheiras, armação exposta, falhas de acabamento e cobrimento inadequado, com impactos em custo e prazo.",
+    "url": "07. RE.QPS - Estrutura Centro médico_R2.pdf",
+    "data": "2025-01-23"
+  },
+  {
+    "id": "08",
+    "titulo": "Relatório Controle Tecnológico - Mês de Novembro",
+    "descricao": "Identificação de reincidência de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa e 45MPa especificados em projeto, referentes ao mês de Novembro de 2024.",
+    "url": "08. RE.QPS - Controle Tecnológico Novembro.pdf",
+    "data": "2024-11-30"
+  },
+  {
+    "id": "10",
+    "titulo": "Relatório Controle Tecnológico - Mês de Dezembro",
+    "descricao": "Identificação de reincidência de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa e 45MPa especificados em projeto, referentes ao mês de Dezembro de 2024.",
+    "url": "10. RE.QPS - Controle Tecnológico Dezembro.pdf",
+    "data": "2024-12-31"
+  },
+  {
+    "id": "12",
+    "titulo": "Relatório Controle Tecnológico - Mês de Janeiro",
+    "descricao": "Identificação de reincidência de notas fiscais de concreto com resultados de Fck a 28 dias inferiores aos 50MPa e 45MPa especificados em projeto, referentes ao mês de Janeiro de 2025.",
+    "url": "12. RE.QPS - Controle Tecnológico Janeiro.pdf",
+    "data": "2025-01-31"
+  },
+  {
+    "id": "13",
+    "titulo": "Relatório Técnico - Hotel – Pavimento PUC – Segurança do Trabalho",
+    "descricao": "Vistoria no pavimento PUC do Hotel em construção, com registro de não conformidades relacionadas à segurança do trabalho, conforme NR-18, item 18.9, incluindo ausência de proteções coletivas e riscos de queda.",
+    "url": "RE.QPS - 13. Hotel – Pavimento PUC – Segurança do Trabalho.pdf",
+    "data": "2025-01-23"
+  },
+  {
+    "id": "14",
+    "titulo": "Relatório Técnico - Embasamento – Pavimento Topo – Segurança do Trabalho",
+    "descricao": "Vistoria no pavimento topo do embasamento em construção, identificando falhas de segurança como guarda-corpo inadequado, ausência de EPIs e pontos de ancoragem, conforme NR-18.",
+    "url": "RE.QPS - 14. Embasamento – Pavimento Topo – Segurança do Trabalho.pdf",
+    "data": "2025-03-20"
+  },
+  {
+    "id": "15",
+    "titulo": "Relatório Técnico - Hotel – 5º Subsolo – Segurança do Trabalho",
+    "descricao": "Vistoria durante concretagem no 5º subsolo do Hotel, identificando ausência de plataforma adequada, pontos de ancoragem e presença de riscos à segurança dos trabalhadores, conforme NR-18.",
+    "url": "RE.QPS - 15. HOTEL – 5º Subsolo – Segurança do trabalho.pdf",
+    "data": "2025-03-21"
+  },
+  {
+    "id": "16",
+    "titulo": "Relatório Técnico - Centro Médico – Pavimento 15º – Segurança do Trabalho",
+    "descricao": "Vistoria no 15º pavimento do Centro Médico durante concretagem, identificando ausência de guarda-corpo, acesso inadequado, falta de EPIs e proteção de vergalhões, conforme NR-18 e NR-15.",
+    "url": "REQPS-~1 (pdf.io).pdf",
+    "data": "2025-03-24"
+  },
+  {
+    "id": "17",
+    "titulo": "Relatório Técnico - Residencial – Danos Eletrodutos nas Lajes",
+    "descricao": "Identificação de danos físicos a eletrodutos cabeados durante furos em lajes para instalações hidráulicas no 9º pavimento da Torre Residencial, gerando retrabalho e impacto em custo, prazo e qualidade.",
+    "url": "RE.QPS - 17. Residencial – Danos Eletrodutos nas Lajes.pdf",
+    "data": "2025-03-25"
   }
 ]
