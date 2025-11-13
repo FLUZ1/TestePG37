@@ -103,5 +103,89 @@
     "descricao": "Identificação de danos físicos a eletrodutos cabeados durante furos em lajes para instalações hidráulicas no 9º pavimento da Torre Residencial, gerando retrabalho e impacto em custo, prazo e qualidade.",
     "url": "RE.QPS - 17. Residencial – Danos Eletrodutos nas Lajes.pdf",
     "data": "2025-03-25"
+  },
+  {
+    "id": "18",
+    "titulo": "Centro Médico – EPC – Segurança do Trabalho",
+    "descricao": "Vistoria no 12º pavimento do Centro Médico, identificando bandejas coletoras incompletas e áreas não protegidas pela tela Tipo V, em desacordo com NR-18.",
+    "url": "18.RE.QPS - Centro Médico - SST - R1.pdf",
+    "data": "2025-03-28"
+  },
+  {
+    "id": "19",
+    "titulo": "Reforço em Torre Residencial – Condições de Soldagem e Segurança",
+    "descricao": "Identificação de umidade no local de soldagem, comprometendo a qualidade. Requisitos mínimos incluem soldador certificado, ensaios de ruptura, inspeção visual e métodos não destrutivos.",
+    "url": "RE.QPS - 19. Reforço em Torre Residencial - Condições de Soldagem e Seguran.pdf",
+    "data": "2025-04-02"
+  },
+  {
+    "id": "20",
+    "titulo": "Instalações Elétricas – Cruzamento de Eletrodutos entre Unidades Autônomas",
+    "descricao": "Cruzamento de eletrodutos entre unidades autônomas devido a problemas de locação. Recomendações para ajuste e prevenção.",
+    "url": "RE.QPS20_Cruzamento de instalações_PGR.pdf",
+    "data": "2025-04-08"
+  },
+  {
+    "id": "21",
+    "titulo": "PGR – Compartimentação – Instalações",
+    "descricao": "Vistoria identificou execução inadequada das fitas intumescentes nos shafts, em desacordo com ficha técnica e projeto do Corpo de Bombeiros (IT-09).",
+    "url": "RE.QPS21_Compartimentação.pdf",
+    "data": "2025-04-10"
+  },
+  {
+    "id": "24",
+    "titulo": "Ensino – Estrutura – Segurança do Trabalho",
+    "descricao": "Vistoria nas atividades de fundação e superestrutura no bloco Ensino, apontando ausência de linha de vida, piso inadequado, acessos provisórios inseguros e trabalho em altura sem ancoragem.",
+    "url": "24.RE.QPS - ENSINO - ESTRUTURA - SST.pdf",
+    "data": "2025-07-11"
+  },
+  {
+    "id": "25",
+    "titulo": "Apto Modelo – Vistoria de Constatação",
+    "descricao": "Vistoria nos apartamentos modelo (finais 01, 04 e 05) identificando divergências entre memorial descritivo e execução, como acabamentos, instalações hidráulicas, elétrica, pintura, guarda-corpos, caixilhos e pontos de iluminação.",
+    "url": "RE.QPS - APTO MODELO rev.1.pdf",
+    "data": "2025-07-18"
+  },
+  {
+    "id": "26",
+    "titulo": "Centro Médico – Aditivo de Caixilho",
+    "descricao": "Análise técnica sobre divergências entre projeto e execução do caixilho AL1 no Centro Médico. Identificadas diferenças de dimensões, necessidade de acabamentos em ACM e ajustes para garantir conformidade.",
+    "url": "26.RE.QPS - Centro Médico - Aditivo de Caixilho.docx",
+    "data": "2025-08-13"
+  },
+  {
+    "id": "27",
+    "titulo": "Pavimentação – Piso de Concreto",
+    "descricao": "Detalhamento dos tipos de pavimentação em concreto no 4º Subsolo e entorno do complexo, incluindo perfis típicos, áreas e especificações técnicas para estimativa de custos.",
+    "url": "27.RE.QPS - Pavimentação.pdf",
+    "data": "2025-09-03"
+  },
+  {
+    "id": "29",
+    "titulo": "Personalização – Residencial PGR",
+    "descricao": "Vistoria em apartamentos personalizados, identificando divergências como execução de layout padrão em unidades customizadas, ausência de infraestrutura frigorígena, instalação indevida de contramarcos e revestimentos divergentes.",
+    "url": "29.RE.QPS - Personalização R0.pdf",
+    "data": "2025-09-23"
+  },
+  {
+    "id": "30",
+    "titulo": "Extrações – Retrabalho",
+    "descricao": "Relatório sobre extrações de concreto devido à baixa resistência, ocasionando retrabalhos em drywall, forros e pintura. Destaca necessidade de planejamento antecipado para evitar impactos.",
+    "url": "30.RE.QPS - Extrações Retrabalho.pdf",
+    "data": "2025-09-29"
+  },
+  {
+    "id": "31",
+    "titulo": "Viário Interno – Contenção",
+    "descricao": "Relatório sobre contenção com aterro e gabião no viário interno, incluindo observações técnicas e recomendações.",
+    "url": "RE.QPS - Viário interno_Contenção.docx",
+    "data": "2025-10-05"
+  },
+  {
+    "id": "32",
+    "titulo": "Relatório de Visita – Pavimento Modelo Centro Médico",
+    "descricao": "Registro fotográfico da visita ao pavimento modelo do Centro Médico com representantes das empresas BENX, CERTIPHIC, TALLENTO e HIAE.",
+    "url": "RE.QPS - Relatório de visita - Modelo Centro Médico.pdf",
+    "data": "2025-10-17"
   }
 ]
