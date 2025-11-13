@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qualidade e Sergurança</title>
+    <title>Portal de Análise de Ações</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <style>
@@ -154,17 +154,7 @@
         .em-aberto .value { color: var(--cor-alerta); }
         .total-itens .value { color: var(--cor-primaria); }
 
-        .kpi-trend {
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-top: 10px;
-            min-height: 1.2em; /* Garante espaço mesmo vazio */
-        }
-        /* Trend styles kept for potential future use, but content is cleared by JS */
-        .trend-up { color: #28a745; }
-        .trend-down { color: #dc3545; }
-        .trend-stable { color: #6c757d; }
-
+        /* Estilos de tendência removidos */
 
         .filters {
             display: flex;
@@ -185,7 +175,7 @@
             background-color: #f8f9fa;
             cursor: pointer;
         }
-
+        
         .multiselect {
             position: relative;
             min-width: 180px;
@@ -294,9 +284,8 @@
         .status-Fechado { background-color: #eaf2d1; color: #5a701b; }
         .status-Aberta { background-color: #f8d7da; color: #721c24; }
         .status-Informativo { background-color: #d1ecf1; color: #0c5460; }
-        .status-Em-analise { background-color: #fff3cd; color: #856404; }
-        .status-Critica { background-color: #FF2800; color: #ffffff; }
-        
+        .status-Em-análise { background-color: #fff3cd; color: #856404; }
+        .status-Crítica { background-color: #f5c6cb; color: var(--cor-critico); }
         td .status-badge {
             padding: 5px 10px;
             border-radius: 12px;
@@ -305,15 +294,15 @@
         }
 
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
         }
 
         .modal-content {
@@ -370,11 +359,10 @@
             margin-top: 40px;
         }
         
-        /* Estilo para o texto do rodapé */
         footer p {
             text-align: center;
             margin: 0;
-            padding: 0; /* Padding removido do <p> e mantido no <footer> */
+            padding: 0;
             color: #555;
             font-size: 0.9em;
         }
@@ -385,288 +373,28 @@
                 grid-template-columns: 1fr;
             }
         }
-        
-        /* --- NOVOS ESTILOS PARA RELATÓRIOS ESPECÍFICOS --- */
-
-        /* Estilos para o novo layout de cards */
-        #cards-relatorios-container {
-            display: grid;
-            grid-template-columns: 1fr; /* 1 coluna por padrão */
-            gap: 15px;
-        }
-
-        .relatorio-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            padding: 20px;
-            display: flex;
-            flex-direction: column; /* Empilha em mobile */
-            justify-content: space-between;
-            gap: 15px;
-            border-left: 5px solid var(--cor-primaria);
-        }
-
-        .relatorio-card .relatorio-info h3 {
-            margin: 0 0 8px 0;
-            color: var(--cor-primaria);
-            font-size: 1.1rem;
-            display: flex; /* Para alinhar o ID e o Título */
-            align-items: center; /* Alinha verticalmente */
-        }
-        
-        /* --- NOVO ESTILO PARA O ID DO RELATÓRIO --- */
-        .relatorio-id {
-            font-weight: 600;
-            color: var(--cor-primaria);
-            background-color: #e9ecef; /* Cinza claro do footer */
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.85em; /* Um pouco menor que o título */
-            margin-right: 10px; /* Espaço entre o ID e o Título */
-            white-space: nowrap; /* Impede que o ID quebre a linha */
-        }
-        
-        .relatorio-card .relatorio-info .descricao {
-            margin: 0 0 12px 0;
-            font-size: 0.95em;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .relatorio-card .relatorio-info .data {
-            font-size: 0.9em;
-            color: #777;
-            font-weight: 600;
-        }
-
-        .relatorio-card .action-buttons {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-shrink: 0; /* Impede que os botões encolham */
-        }
-        
-        /* Media query para telas maiores, colocar botões ao lado */
-        @media (min-width: 768px) {
-            .relatorio-card {
-                flex-direction: row; /* Lado a lado em telas maiores */
-                align-items: center;
-            }
-            .relatorio-card .action-buttons {
-                justify-content: center; /* Centraliza os botões no espaço deles */
-                width: 150px; /* Largura fixa como na tabela original */
-            }
-        }
-
-
-        /* Estilos para os botões de ação com ícones */
-        .action-buttons {
-            display: flex;
-            /* justify-content: center; */ /* Removido para alinhar à esquerda no card */
-            align-items: center;
-            gap: 12px;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-
-        .action-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: #28a745; /* <-- MUDANÇA: Cor verde */
-            transition: fill 0.2s;
-        }
-
-        .action-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .action-btn.btn-view:hover { background-color: #e4f8e5; } /* <-- MUDANÇA: Fundo verde claro */
-        .action-btn.btn-view:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
-
-        .action-btn.btn-download:hover { background-color: #e4f8e5; }
-        .action-btn.btn-download:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
-
-        .action-btn.btn-share:hover { background-color: #e4f8e5; } /* <-- MUDANÇA: Fundo verde claro */
-        .action-btn.btn-share:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
-
-        /* Estilos para o novo modal de PDF */
-        #pdfViewModal .modal-content {
-            width: 90%;
-            max-width: 1200px;
-            height: 90vh; /* 90% da altura da tela */
-            padding: 10px; /* Reduz o padding para dar mais espaço ao iframe */
-            background-color: #333; /* Fundo escuro para o modal */
-        }
-
-        #pdfViewModal .close-button {
-            position: absolute;
-            top: 15px; /* Ajustado para o novo padding */
-            right: 25px; /* Ajustado para o novo padding */
-            color: #fff; /* Botão de fechar branco */
-            font-size: 35px;
-            opacity: 0.8;
-        }
-        #pdfViewModal .close-button:hover {
-            opacity: 1;
-        }
-
-        #pdf-view-iframe {
-            width: 100%;
-            height: calc(100% - 15px); /* Ajusta altura para o padding */
-            border: 1px solid #555;
-            background-color: #fff;
-        }
-        
-        
-        /* --- NOVOS ESTILOS DE UX INTEGRADOS --- */
-
-        /* Estilos da Tela de Carregamento */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--cor-fundo);
-            display: none; /* Inicia oculto, JS controla a exibição */
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-            opacity: 1;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .loading-content p {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            color: var(--cor-texto-escuro);
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--cor-primaria); /* Usa a cor primária original */
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Caixas de Texto - Feedback Visual */
-        input[type="text"],
-        textarea,
-        select {
-          width: 100%;
-          padding: 12px;
-          margin: 8px 0;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          font-size: 1rem;
-          transition: all 0.3s ease-in-out;
-          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        select:focus {
-          border-color: var(--cor-primaria);
-          outline: none;
-          box-shadow: 0 0 8px rgba(1, 69, 92, 0.2); /* Sombra com a cor primária original */
-        }
-        
-        /* Hover suave para tabela e cards */
-        #dataTable tbody tr:hover,
-        .relatorio-card:hover {
-            background-color: #f8f9fa; /* Um cinza bem claro */
-            transform: scale(1.005);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: all 0.2s ease-in-out;
-        }
-
-
-        /* Modal - Transição Suave */
-        .modal {
-          transition: opacity 0.3s ease-in-out;
-        }
-        
-        .modal-content {
-             transition: transform 0.3s ease-in-out;
-        }
-        
-        /* Animação do modal reescrita para usar a classe 'show' que o JS pode adicionar */
-        .modal {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .modal.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
-        /* Scrollbar Customizado */
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: var(--cor-primaria);
-          border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: var(--cor-secundaria); /* Hover com a cor secundária */
-        }
-        
     </style>
 </head>
 <body>
 
-    <div id="loading-screen" class="loading-screen">
-      <div class="loading-content">
-        <div class="spinner"></div>
-        <p>Carregando conteúdo, por favor aguarde...</p>
-      </div>
-    </div>
-
     <header>
-        <div class="logo">Qualidade e Segurança</div>
+        <div class="logo">Análise de Ações</div>
         <nav>
             <ul>
                 <li><a id="nav-home" class="active">Página Principal</a></li>
-                <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li> <li><a id="nav-report">Relatório</a></li>
-                <li><a id="nav-apontamentos">Apontamentos</a></li>
-                <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li>
+                <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li>
+                <li><a id="nav-report">Relatório</a></li>
             </ul>
         </nav>
     </header>
 
     <main id="landing-page">
         <section class="hero">
-            <h1>Gestão da Qualidade e Segurança</h1>
+            <h1>Gestão de Ações - Ata de Reunião</h1>
             <p>
-                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados.
+                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento, e facilitar a tomada de decisão baseada em dados.
             </p>
-            <a id="cta-button" class="cta-button">Acessar</a>
+            <a id="cta-button" class="cta-button">Acessar o Ata de Reunião - Dashboard</a>
         </section>
     </main>
 
@@ -731,7 +459,11 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 20px;">Carregando dados...</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -760,39 +492,6 @@
             </iframe>
         </div>
     </div>
-    
-    <div id="apontamentos-page" class="container" style="display: none;">
-        <h1>Apontamentos</h1>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-             <p style="margin: 0;"><strong></strong></p>
-             <button id="btn-fullscreen-external" style="padding: 8px 15px; background-color: var(--cor-primaria); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Maximizar</button>
-        </div>
-
-        <div id="external-site-container" class="external-site-container" style="height: 90vh; border: 1px solid #ccc; background: #eee;">
-             <iframe
-                src="https://fluz1.github.io/SnagR37/"
-                width="100%"
-                height="100%"
-                style="border: none;"
-                allowfullscreen>
-                <p style="padding: 20px; text-align: center;">
-                    O seu navegador não suporta iframes ou o site externo bloqueia a incorporação.
-                    <br>
-                    <a href="https://fluz1.github.io/SnagR37/" target="_blank" style="color: var(--cor-primaria); font-weight: bold;">
-                        Clique aqui para abrir o site em uma nova aba
-                    </a>.
-                </p>
-            </iframe>
-        </div>
-    </div>
-    <div id="relatorios-especificos-page" class="container" style="display: none;">
-        <h1>Relatórios Específicos</h1>
-        <p>Repositório de relatórios específicos do projeto.</p>
-        
-        <div class="table-container" style="overflow-x: hidden;"> <div id="cards-relatorios-container" style="padding-top: 10px;">
-                </div>
-        </div>
-    </div>
     <div id="detailsModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -803,852 +502,47 @@
             <p id="modalAcao"></p>
         </div>
     </div>
-
-    <div id="pdfViewModal" class="modal">
-        <div class="modal-content" style="width: 90%; max-width: 1200px; height: 90vh; padding: 10px;">
-            <span class="close-button" id="close-pdf-modal">&times;</span>
-            <iframe id="pdf-view-iframe" src="" style="width: 100%; height: calc(100% - 20px); border: none;"></iframe>
-        </div>
-    </div>
+    
     <footer>
-        <p style="text-align: center; margin: 0; padding: 1rem; color: #555; font-size: 0.9em;">Felipe Luz - Desenvolvimento</p>
+        <p>Felipe Luz - Desenvolvimento</p>
     </footer>
 
 <script>
-    // --- NOVOS ÍCONES SVG ---
-    const iconView = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 2c-4.001 0-7.271 2.91-8.129 7C4.729 16.09 7.999 19 12 19s7.271-2.91 8.129-7C19.271 7.91 16.001 5 12 5zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`;
-    const iconDownload = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"/></svg>`;
-    const iconShare = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18 8c.552 0 1 .448 1 1v11.008c0 .55-.448.992-1 .992H6c-.552 0-1-.448-1-.992V9c0-.552.448-1 1-1h3V6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V8h3zM8 8h8V7.5h-4V8H8v11h8V9H8v9zm5-4.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V5h2V3.5zM7 11h2v2H7v-2zm0 3h2v2H7v-2zm0 3h2v2H7v-2z"/></svg>`;
-    
-    // DADOS ATUAIS DO SEU ARQUIVO
-    let rawData = [
-      {
-        "seq": 1,
-        "ata": 1,
-        "item": 1,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Compartilhamento de documentos SST",
-        "descricao": "CTP - Solicita o compatilhamento de documentos de SST, através de sistemas em nuvem. ",
-        "acao": "BNX-C - Serão anexados na pasta compartilhada com a Certiphic. 14/05/25 Pasta zipada compartilhada na rede.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-04-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 2,
-        "ata": 1,
-        "item": 2,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Segurança do trabalho no SNAGR",
-        "descricao": "CTP - Solicita o adição de itens de segurança do trabalho no SnagR - Lista exemplo demonstada na reunião dia 14/03/25. ",
-        "acao": "BNX-C - Itens incluídos no SnagR, já pode ser utilizado.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-04-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 3,
-        "ata": 1,
-        "item": 3,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Acidente do trabalho",
-        "descricao": "CTP - Solicita que seja reportado todo acidente do trabalho com a CAT e investigação.",
-        "acao": "BNX-C - Será informado ao final do dia quando houver acidente pela aly, um resumo com informações.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-04-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 4,
-        "ata": 1,
-        "item": 4,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Mesa apoio p/ serra circular",
-        "descricao": "CTP - Solicita adequação das bancadas de corte de madeiras em geral.  25/07/25 Item mantido. 20/10/25 Item mantido.\n",
-        "acao": "BNX-C – Adequações foram realizadas e estão sendo monitoradas diariamente com a equipe de campo. Evidências serão apresentadas por e-mail até 19/05. 04/06/2025 BNX-C \"Será realizado alinhamento com todos os empreiteiros, na reunião de comitê de segurança para os que ha necessidade de uso de serra circular sobre os procedimentos de segurança e solicitado a bancada que atenda os padrões normativas.\" \nBNX-C enviará envidencias das reuniões (DDS) até 01/10.\nPrazo: 13/06/2025. 24/09/25 Item mantido, evidências demonstradas na reunião. aguardando novo prazo de solução. 20/10/25_BNX-C - As ações da equipe de SSO da BENX foram e alinhadas com a equipe da constata – empresa com mais recorrência. ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 5,
-        "ata": 1,
-        "item": 5,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Adequação e uso EPC's",
-        "descricao": "CTP - Solicita correção das plataformas de trabalho,  conforme apontamentos nos relatórios especificos enviados nos dias 19,20,21 e 25 de março de 2025.",
-        "acao": "BNX-C – Adequações foram realizadas e estão sendo monitoradas diariamente com a equipe de campo. Evidências serão apresentadas por e-mail até 19/05. 04/06/2025 BNX C Está anexado a esta ata correções.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-06-04",
-        "status": "Fechado"
-      },
-      {
-        "seq": 6,
-        "ata": 1,
-        "item": 6,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Trabalho em escavações",
-        "descricao": "CTP - Solicita adequação no trabalho em escavações, sinalização, acesso, plataforma para concretagem. ",
-        "acao": "BNX-C – Adequações foram realizadas e estão sendo monitoradas diariamente com a equipe do Ensino e Embasamento.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-03-28",
-        "status": "Fechado"
-      },
-      {
-        "seq": 7,
-        "ata": 1,
-        "item": 7,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Área de Vivência",
-        "descricao": "CTP - Solicita adequação das instalações nos sanitários e área de vivência. Aguarda prazo para conclusão das correções/adequações. 14/04/25 - Aguarda de conclusão.",
-        "acao": "BNX-C - Informa que tem plano de ação corretiva para as áreas de vivência em execução. 14/05/25 as áreas de vivência foram corrigidas e está em implantação a área de descanso e lazer.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-04-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 8,
-        "ata": 1,
-        "item": 8,
-        "dataAta": "2025-03-28",
-        "tema": "Segurança",
-        "assunto": "Instalações elétricas",
-        "descricao": "CTP - Informa que verifcou instalações elétricas na paredes prontas em divergência com o projeto, e que também verificou que existe em campo projeto da parade pronta baseada em revisão distinta do projeto elétrico mais atualizado, porntato solicita a verificação dos projetos usados em campo para evitar possíveis erros. 14/04/25 Aguarda retorno. ",
-        "acao": "BNX-C - Situação está em tratativa junto com produção. 14/05/25 - A execução está sendo realizada conforme o gabarito validado com a incorporação > Autodoc Projetos > Arquitetura > Gabarito",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-05-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 9,
-        "ata": 1,
-        "item": 9,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Parede pronta",
-        "descricao": "CTP - Aponta que encontrou em campo, durante a execução, projeto  de parede pronta com revisão superior aos projetos no Autodoc. Reitera portanto o pedido de atualizar os projetos em campo e na plataforma de gestão de projetos para evitar erros. 14/04/25 Aguarda retorno.",
-        "acao": "BNX-C - Situação está em tratativa junto com produção.  14/05/25 - A execução está sendo realizada conforme o projeto de vedação Matrix e projeto de fabricação da Parede Pronta> Autodoc Projetos > Projeto de Fabricação > Smart Pods>\nAutodoc Projetos > Vedações",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-05-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 10,
-        "ata": 1,
-        "item": 10,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Instalações Elétricas",
-        "descricao": "CTP - Informa que encontrou instalações elétricas danificas após furações para ponto hidráulicos, conforme reportado também em relatório específico enviado no dia 26/03/25. 14/04/25 Item mantido.",
-        "acao": "BNX - C - Situação está em tratativa junto com produção. 14/05/25 Essa sistuação acontecerá até o 29º pavimento, as instalações são ajustadas/reparadas confome avança a vedações internas.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-05-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 11,
-        "ata": 1,
-        "item": 11,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Parede pronta (Desvios)",
-        "descricao": "CTP - Aponta que ainda permanece encontrando nas paredes prontas problemas dimensionais de esquadro e planicidade. 14/04/25 Item mantido. 04/06/2025 Foram apresentados novos apontamentos  nos pavimentos executados, mesmo com o critério adotado na última reunião. 20/10/2025 - Item mantido foram demonstrados novos apontamentos. Foi realizada a vistoria no junto com equipe de produção BNX-C foi verificado a qualidade dimensional da estrutura do drywall no 33º pavto, foi realizada a vistoria em conjunto no 15º pavimento e apresentado os apontamento que estão no SnagR, ficando constatado o problema com esquadro.",
-        "acao": "BNX-C - Será marcada reunião em campo. 14/05/25 Parede com desvios de até 3 mm são considerados aceitáveis confome reunião em campo com produção e qualidade da Benx, acima desse limite serão corrigidos.05/09/2025 Será marcada reunião em campo para aferição e validação das tratativas – Sugestão 16/09 período da tarde. \n24/09/25 BNX-C informará uma nova data após a auditoria externa para realizar reunião in loco para tratar assunto. 06/10/25 Agendada vistoria para o dia 07/10/25. 20/10/25 - BNX-C vai corrigir os problemas encontrados e serão registrados no SNAGR.\n",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Em análise"
-      },
-      {
-        "seq": 12,
-        "ata": 1,
-        "item": 12,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Instalações Hidráulicas",
-        "descricao": "CTP - Aponta a necessidade dos complementos do isolamento nos drenos dentro das paredes prontas.",
-        "acao": "BNX-C - Itens foram corrigidos conforme apresentado e validado no SNAGR 920 e 939.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-08-28",
-        "status": "Fechado"
-      },
-      {
-        "seq": 13,
-        "ata": 1,
-        "item": 13,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Concreto",
-        "descricao": "CTP -Apresenta resumo dos concretos com baixas resistências, e solicita que seja enviada planilha com status da situação de de cada amostra não conforme. 03/04/25 - CTP informou por email 03/04 que existem séries com problema de resistência baixa não relacionadas na planilha. 14/04/25 - Solicita o envio da planilha atualizada. 16/07/25 - Solicita o envio da planilha atualizada. 20/10/25 Item mantido, CTP está aguardando o envio da planilha atualizado, dificultando o controle das ações de correção.",
-        "acao": "BNX-C - Planilha enviada no dia 28/03/25. 14/04/25 Será enviada planilha atualizada. 25/07/25 Planilha atualizada será encaminhada pela BNX-C até a data do dia 01/08/25. 08/08/25 BNX-C se comprometeu a encaminhar planilha no data do dia 08/08/25.\n24/09/25 BNX-C se comprometeu a encaminhar planilha no dia 03/10/25. ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 14,
-        "ata": 1,
-        "item": 14,
-        "dataAta": "2025-03-28",
-        "tema": "Qualidade",
-        "assunto": "Protensão",
-        "descricao": "CTP - Solicita o acesso aos  ensaios da execução da protensão e materiais aplicados. 14/04/25 Item mantido. 14/05/25 Atualizar a pasta com informações do hotel também.",
-        "acao": "BNX-C – Documentos foram cadastrados no drive com Residencial e Hotel. Não há protensão no Centro Médico.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-03-28",
-        "status": "Fechado"
-      },
-      {
-        "seq": 15,
-        "ata": 2,
-        "item": 1,
-        "dataAta": "2025-04-14",
-        "tema": "Qualidade",
-        "assunto": "SnagR fechamento ",
-        "descricao": "CTP - Apresenta na reunião quinzenal exemplos de apontamento que foram respondidos corretamente e exemplos de apontamento cuja resposta consideramos incompleta para conclusão.",
-        "acao": "",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 16,
-        "ata": 2,
-        "item": 2,
-        "dataAta": "2025-04-14",
-        "tema": "Qualidade",
-        "assunto": "Compartimentação Hidráulica",
-        "descricao": "CTP - Apresenta assunto sobre a compartimentação, tema tratado também no relatório RE.QPS 21. 14/05/25 Item mantido. 05/06/25 A CTP na apresentação da reunião demonstra que as compartimentações ainda carecem de correções e ajustes na execução das prumadas e passagens, a fim de facilitar a aplicação da fita intumescente (conforme orientação do fabricante) e recomposição da laje. Também foi informado da necessidade de ajuste nas passagem dos alimentadores elétrica/hidráulica dos apartamentos para atendimento a IT09. 16/07/25 Item mantido, CTP informa que não conseguiu encontrar evidências da correção. 05/09/25 item mantido, não é verificado a compartimentação horizontal nos pontos hidráulicos na execução da obra.\n24/09/25 item mantido, CTP demonstra a não execução da compartimentação horizontal em ambiente que forro está em execução/executado. Apontamentos que não contiverem evidencia de execução de compartimentação serão reabertos. 20/10/25 Item mantido.",
-        "acao": "24/09/25 BNX-C informou que compartimentação horizoal entre unidade para passagem dos alimentadores deve ser feita . 20/10/25 - A Benx esclarece que não será realizada a compartimentação no trecho em questão, considerando que os sistemas construtivos adjacentes — como a porta de entrada posicionada logo abaixo da passagem — apresentam apenas desempenho mínimo ao fogo, não garantindo a continuidade do compartimento resistente ao fogo.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Em análise"
-      },
-      {
-        "seq": 17,
-        "ata": 2,
-        "item": 3,
-        "dataAta": "2025-04-14",
-        "tema": "Qualidade",
-        "assunto": "Instalações Elétricas",
-        "descricao": "CTP - Apresenta assunto sobre cruzamento das lnstalações entre unidades, tema tratado também no relatório RE.QPS 20.",
-        "acao": "BNX-C - 14/05/25 Itens serão corrigidos conforme cronograma de inspeção da obra. ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-05-14",
-        "status": "Fechado"
-      },
-      {
-        "seq": 18,
-        "ata": 2,
-        "item": 4,
-        "dataAta": "2025-04-14",
-        "tema": "Qualidade",
-        "assunto": "Reforço Estrutural (Bloco Residencial)",
-        "descricao": "CTP - Solicita retorno referente ao relatório RE.QPS 19 da execução do reforço do bloco de fundação que trata sobre condições da qualidade e segurança da solda a ser executada. 14/05/25 - Parte dos blocos PR09/10 estão aterrados, CTP questiona sobre como se dará o reforço estrutura nesses pontos. 04/06/25 CTP aguarda relatórios dos ensaios de solda. 16/07/25 CTP Aguarda retorno do projetista sobre baixa resistência no concreto do reforço do bloco. ",
-        "acao": "BNX-C - 14/05/25 Foram realizados as adequações necessárias e o reforço foi executado, os laudos de inspeção de solda serão encaminhados por email. 04/06/25 - Será feita a execução do reforço faltante, está por definir o  método para contenção da escavação, com data a definir. 18/06/25 Ensaios de solda enviados por email, quanto ao trecho de reforço que falta está em execução, a baixa resitência do concreto aplicado no reforço está discussão com o projetista. 25/07/25 Item mantido. 08/08/25 Item mantido aguardando retorno formal do projetista, BNX-C enviará retorno a CTP.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-09-05",
-        "status": "Fechado"
-      },
-      {
-        "seq": 19,
-        "ata": 3,
-        "item": 1,
-        "dataAta": "2025-05-14",
-        "tema": "Qualidade",
-        "assunto": "Reforço Estrutural (Geral)",
-        "descricao": "CTP - Solicita um cronograma/previsão de execução dos reforços estruturais solicitados pelo projetista. 25/06/25 Item mantido, CTP questiona também se há alguma orientação formal do projetista quanto a continuidade da execução das estruturas frente aos reforços que precisam ser executados.\n25/07/25 Item mantido, aguardando cronograma dos reforços. 20/10/25 - Aguarda atualização",
-        "acao": "BNX-C – Cronograma será apresentado na próxima reunião. 04/06/25 BNX-C Informa que ainda não possui programação por conta da realização de ATP nos projetos de reforço do  PASQUA. 25/07/25 Item mantido. 08/08/25 BNX-C se comprometeu a apresentar cronogrma até a proxima reunião. 05/09/25 Residencial contratado, demais locais ainda em contratação.\n24/09/25 BNX-C enviará cronograma. (enviado 25/09/25). Enviado atualização 22/10",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-10-20",
-        "status": "Informativo"
-      },
-      {
-        "seq": 20,
-        "ata": 3,
-        "item": 2,
-        "dataAta": "2025-05-14",
-        "tema": "Qualidade",
-        "assunto": "TRF paredes entre unidades autônomas e áreas comuns",
-        "descricao": "CTP - Foi realizada a revisão do projeto de vedação em 30/04/2025,  porém permanece a dúvida do atendimento ao TRF do sistema aplicado,  entre as unidades autônomas e as áreas comuns (assunto tratado no RE.QPS 04 de 26/11/24). CTP questiona se existe ensaio prévio/ou certificação do sistema. 25/07/2025 Item mantido. 08/08/25 Item mantido, aguardando retorno.",
-        "acao": "BNX-C - Será avaliado junto ao setor de projetos. 05/06/25 Item será reanalisado junto a Diretoria. 18/06/25 Realizará ensaio para verificar atendimento a IT-09. Ensaio previsto para julho/2025 (em anda mento). 16/07/25 Ensaio previsto para acontecer no dia 18/07 na tipologia unidade/hall, na tipologia unidade/unidade o sistema placo é certificado, será enviado os laudos de ambas tipologias. 25/07/25 item mantido BNX-C informou que ensaio foi realizado e aprovado, será encaminhado relatórios do ensaio e relatório da plako. 08/08/25 Item mantido, aguardando formalização com os relatórios por parte da BNX-C. 05/09/25 Foram enviados o ensaio de compartimentação e as declarações de conformidado da Placo, atendendo ao requisito IT.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-09-05",
-        "status": "Fechado"
-      },
-      {
-        "seq": 21,
-        "ata": 3,
-        "item": 3,
-        "dataAta": "2025-05-14",
-        "tema": "Qualidade",
-        "assunto": "Cobrimento armações",
-        "descricao": "CTP - Informa que voltaram  ocorrer pontos com falha de cobrimento em lajes no Centro Médico. 04/06/25 Item mantido e foram apresentadas novas ocorrências no Centro Médico. 20/10/25 Item mantido.",
-        "acao": "BNX-C - Ponto de atenção será repassado ao time de campo, os Itens serão corrigidos conforme cronograma de inspeção da obra e evidências serão apresentadas no SNAGR. 25/07/25item mantido. 25/09/2025 Os Itens serão corrigidos conforme cronograma de inspeção da obra e evidências serão apresentadas no SNAGR – piso já está sendo tratado, conforme apresentado nos primeiros pavimentos da torre. 20/10/2025 BNX-C - As áreas afetadas estão sendo tratadas. A equipe Benx avaliará a aderência e qualidade do produto para entrega ao cliente.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Em análise"
-      },
-      {
-        "seq": 22,
-        "ata": 3,
-        "item": 4,
-        "dataAta": "2025-05-14",
-        "tema": "Qualidade",
-        "assunto": "Revestimento cerâmico",
-        "descricao": "CTP - Foram apresentados exemplos de  problemas com revestimento cerâmico que serão apontados quando da vistoria no revestimento cerâmico.",
-        "acao": " BNX-C – Apresentará apontamentos ao time de campo para melhoria no processo executivo",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 23,
-        "ata": 4,
-        "item": 1,
-        "dataAta": "2025-06-04",
-        "tema": "Segurança",
-        "assunto": "Caminho Seguro",
-        "descricao": "CTP - Solicita melhoria no caminho seguro, quando da ocorrência de precitações fica intrasitável pela lâmina de água e barro acumulado. ",
-        "acao": "BNX-C - Será analisado o local para melhorias. Este item só ocorre quando há grandes chuvas. 18/06/2025 O caminho seguro previsto para entrada e saída da área de vivência se dá pela frente da engenharia Benx, contornando o corredor do auditório.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-06-18",
-        "status": "Fechado"
-      },
-      {
-        "seq": 24,
-        "ata": 4,
-        "item": 2,
-        "dataAta": "2025-06-04",
-        "tema": "Segurança",
-        "assunto": "Não atendimento a NR 18",
-        "descricao": "CTP - Demonstra ocorrências com ausência de ancoragem, aberturas no piso e shaft, trabalho em poço de elevador, manuntenção do EPC e ausência de utilização de EPI's.",
-        "acao": "BNX-C - Informa que tem atuado junto ao empreteiros sobre os assuntos tratados e os notificará sobre as ocorrências pontuais de demonstradas reunião.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 25,
-        "ata": 4,
-        "item": 3,
-        "dataAta": "2025-06-04",
-        "tema": "Qualidade",
-        "assunto": "Proteção de serviços pronto",
-        "descricao": "CTP - Demonstra ocorrências de ausência de proteção na tubulações de incêndio, armazenamento de mateirias, apontamentos revestimento cerâmico apontados no SnagR.",
-        "acao": "BNX-C - Ponto de atenção será repassado ao time de campo, os Itens serão corrigidos conforme cronograma de inspeção da obra e evidências serão apresentadas no SNAGR",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-06-04",
-        "status": "Fechado"
-      },
-      {
-        "seq": 26,
-        "ata": 5,
-        "item": 1,
-        "dataAta": "2025-06-18",
-        "tema": "Segurança",
-        "assunto": "Não atendimento a NR 18",
-        "descricao": "CTP - Demonstra ocorrências com ausência de ancoragem, inadequação de andaimes, aberturas no piso, poço de elevador sem proteção e necessidade de manuntenção de EPC.   25/07/2025 Item mantido. 05/09/25 Item mantido, evidências demonstradas em reunião.",
-        "acao": "BNX-C – Será realizado uma reunião com a constata (empresa dos maiores apontamentos) sobre os desvios de SSO e tomado as medidas de correções necessárias nos EPC.\n\nBNX-C  – Área de Vivência as manutenções são realizadas assim que identificada pela equipe da limpeza e/ou equipe da BENX, contudo será realizado o envio do relatório das manutenções. ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 27,
-        "ata": 5,
-        "item": 2,
-        "dataAta": "2025-06-18",
-        "tema": "Qualidade",
-        "assunto": "Qualidade",
-        "descricao": "CTP -  Demonstra fechamento de extração em peça de concreto com gesso, ausência ventilação para instalação de GN no shafts ainda por executar, e quanto a execução dos ralos na halls de emergência a preocupação quanto a ventilação deste ramal e ligação com algum dispositivo de desconexão a sistema de esgoto do empreendimento.",
-        "acao": "BNX-C - Equipe de produção já foi orientada seguir o fechamento das extrações conforme o projetista indica em relatório – utilizando grout fck ≥ 50 Mpa. O ralo do hall de serviço é apenas uma exigência da TKE e não será de uso rotineiro, ele existe apenas para casos de emergências, o projeto seguirá desta forma.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-06-18",
-        "status": "Fechado"
-      },
-      {
-        "seq": 28,
-        "ata": 5,
-        "item": 3,
-        "dataAta": "2025-06-18",
-        "tema": "Qualidade",
-        "assunto": "Tratamento acústico instalações APP",
-        "descricao": "Instalação hidráulica no teto em quarto (APP) sem material acústico (tipo Selentium), visto que o projeto de acústica detalha genericamente porém não indica em planta os locais de aplicação. 05/09/25 Item deverá ser verificado e registrado no momento da execução (por acontecer)",
-        "acao": "BNX-C - Para os pontos de ocorrência no residêncial será adotado o detalhe de projeto de acústica \"J\" e \"J1\". 05/09/25 Solução será aplicada nos aptos elegíveis.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-09-05",
-        "status": "Fechado"
-      },
-      {
-        "seq": 29,
-        "ata": 5,
-        "item": 4,
-        "dataAta": "2025-06-18",
-        "tema": "Qualidade",
-        "assunto": " Compartimentação horizontal ",
-        "descricao": "CTP questiona sobre compartimentação horizontal entre unidades que são ligadas pela fachada pré-moldada, Área de serviço/Quarto (finais 4/7; 1/5; 2/6) e Área de serviço/Área de serviço (finais 3/7; 5/6). 25/07/25 Item mantido. 05/09/25 Item mantido, aguardando execução em campo, Alerta para a execução de acabamento sem a execução da compartimentação. 06/10/25 item mantido.",
-        "acao": "BENX – Definido que a vedação será realizada com duas placas RF. 16/07/25 As paredes que foram executadas serão refeitas para a tipoligia de parede com duas placas RF. 25/07/25 Item mantido, será realizado firestop no fechamento entre pilar e fachada pré moldada. 08/08/25 item mantido, aguardando solução ser realizada em campo. 05/09/25 Fire stop será incorporado a partir do 12º pavimento.\n24/09/25 Item esta sendo executado conforme andamento da obra. 20/10/25_BNX-C - Os pavimentos inicias 1º ao 12º pavimento serão refeitos.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-10-20",
-        "status": "Fechado"
-      },
-      {
-        "seq": 30,
-        "ata": 6,
-        "item": 1,
-        "dataAta": "2025-07-16",
-        "tema": "Segurança",
-        "assunto": "Atualização Pasta de Segurança",
-        "descricao": "CTP o reenvio da pasta de segurança atualizada. 25/07/25 Item mantido, pasta será atualizada até dia 01/08/25.\n06/10/25 item mantido.",
-        "acao": "08/08/25 item mantido, aguardando atualização da pasta de segurança por parte da BNX-C. 05/09/25 - Atualização ocorerá até o dia 12/09.\n 24/09/25 - Atualização ocorerá até o dia 29/09. 06/10/25 - Documento enviado.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 31,
-        "ata": 6,
-        "item": 2,
-        "dataAta": "2025-07-16",
-        "tema": "Qualidade",
-        "assunto": "Atualização Pasta de Qualidade",
-        "descricao": "CTP a atualização da pasta de qualidade, solicita também que na pasta sejam disponibilizados os documentos de evidência de atendimento do PCT-BNX que estão fora da plataforma SnagR. 25/07/25 Item mantido,  pasta será atualizada até a data do dia 01/08/25. 08/08/25 Item mantido.\n06/10/25 Item mantido. 20/10/25 Solicita que cadastrem os ensaios e registros que não são controlados no SnagR.",
-        "acao": "08/08/25 Item mantido, BNX-C informou que pasta foi atualizada. 05/09/25 - Atualização ocorerá até o dia 12/09. 24/09/25 BNX-C informou que pasta foi atualizada. ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 32,
-        "ata": 6,
-        "item": 3,
-        "dataAta": "2025-07-16",
-        "tema": "Segurança",
-        "assunto": "DDS Registro",
-        "descricao": "CTP solicita os registros da realização do DDS com os empreiteiros. 25/07/25 Item mantido. 08/08/25 Item mantido, aguardando registros BNX-C. 20/10/25 Item mantido.",
-        "acao": "25/07/25 Item mantido, informado pela BNX-C que encaminhará resgistros até o dia 01/08/25. \n08/08/25 Item mantindo.\n24/09/25 Informado pela BNX-C que encaminhará resgistros até o dia 29/09/25. 20/10/25 Documentos foram enviado no dia 06/10/2025",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 33,
-        "ata": 6,
-        "item": 4,
-        "dataAta": "2025-07-16",
-        "tema": "Segurança",
-        "assunto": "Controle de acesso no portão P1",
-        "descricao": "CTP alerta para a necessidade do controle de acesso no portão P1, visto haver a passagem de funcionários para consumo de bebida alcólica na barraca do churrasco. Como também da facilidade de trânsito de pessoas entres as obras do hospital e PG 37, pelos diversos pontos em comum. Ex. viário interno. 25/07/25 item mantido. ",
-        "acao": "25/07/25 item mantido, apartir da proxima semana terá um funcionário da segurança na P1. 08/08/25 Solucionado existe uma guarita e segurança na P1.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-08-08",
-        "status": "Fechado"
-      },
-      {
-        "seq": 34,
-        "ata": 6,
-        "item": 5,
-        "dataAta": "2025-07-16",
-        "tema": "Qualidade",
-        "assunto": "Distância do quadro apto final 06",
-        "descricao": "CTP no final 6 o distanciamento do quadro está menor que o projeto de arquitetura, portanto a geladeira ficará sobrepondo os quadros na parede. 25/07/25 Item mantido, está sendo verificado pela BNX-C. 05/09/25 item mantido. 06/10/25 item mantido.",
-        "acao": "08/08/2025 BNX-C informou que item está sendo verificado em ata da incorporação. 05/09/2025 Os Itens serão corrigidos conforme cronograma de inspeção da obra e evidências serão apresentadas no SNAGR\n24/09/2025 Os Itens serão corrigidos conforme cronograma de inspeção da obra e evidências serão apresentadas no SNAGR. 20/10/25 - BNX-C está corrigindo o problemas junto com revisão na paredes da Ambar.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-10-20",
-        "status": "Fechado"
-      },
-      {
-        "seq": 35,
-        "ata": 8,
-        "item": 1,
-        "dataAta": "2025-09-05",
-        "tema": "Qualidade",
-        "assunto": "Equipe CTP",
-        "descricao": "CTP - Apresentados Rafael M. e Alcides que passam a integrar a equipe da CTP",
-        "acao": "",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 36,
-        "ata": 8,
-        "item": 2,
-        "dataAta": "2025-09-05",
-        "tema": "Segurança",
-        "assunto": "Não atendimento a NR 18",
-        "descricao": "CTP - Demonstra ocorrências de funcionários trabalhando sem ancoragem, inadequação no uso de andaimes e plataforma, aberturas no piso, poço de elevador sem proteção, necessidade de manuntenção de EPC e também falta de condições de acesso e desorganização no 5º SS.\n24/09/25 item mantido.",
-        "acao": "",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 37,
-        "ata": 8,
-        "item": 3,
-        "dataAta": "2025-09-05",
-        "tema": "Qualidade",
-        "assunto": "Caixilho - Dimensão",
-        "descricao": "CTP - Foi demonstrada tipologia de caixilho do centro médico que está com dimensão inferior ao projeto de arquitetura e caixilharia, no Centro Médico. Solicita a verificação e retorno.\n06/10/25 item mantido.",
-        "acao": "Será verificado com equipe de Projetos e Produção, com retorno na próxima reunião.\n24/09/25 BNX-C informou que ainda está em análise pela equipe de projetos. 20/10/25 - BNX-C E-mail com análise técnica enviado dia 20/10 - dimensões vão acabado x caixilho",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Em análise"
-      },
-      {
-        "seq": 38,
-        "ata": 8,
-        "item": 4,
-        "dataAta": "2025-09-05",
-        "tema": "Qualidade",
-        "assunto": "Caixilho - Especificação",
-        "descricao": "CTP - O projeto de caixilhos demonstra a ausência da instalação de isolamento acústico/lã no fechamento em steel frame na parte superior do caixilho. Solicita a verificação do item\n06/10/25 item mantido.",
-        "acao": "Será verificado com equipe de Projetos e Produção, com retorno na próxima reunião.\n24/09/25 BNX-C informou que projetos de fabricação e Crescencio serão revisados. 20/10/25 - BNX-C E-mail com análise técnica enviado dia 09/10 - não há indicação de tratamento acústico o projeto será revisado.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-10-20",
-        "status": "Fechado"
-      },
-      {
-        "seq": 39,
-        "ata": 9,
-        "item": 1,
-        "dataAta": "2025-09-24",
-        "tema": "Qualidade",
-        "assunto": "Desnível de piso acabado na rota  de fuga",
-        "descricao": "CTP - Informa sobre o desnivel entre escada e hall de elevador de emergência em divergência ao projeto. 20/10/25 Item mantido.",
-        "acao": "20/10/2025 - BNX-C - Nos trechos onde há diferença de nível, será executado o rampeamento do piso, partindo do hall da escada até a soleira, sem interferir na altura dos degraus existentes. Ressalta-se que a torre já possui pavimentos com o piso devidamente nivelado, garantindo a uniformidade nas demais execuções.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Em análise"
-      },
-      {
-        "seq": 40,
-        "ata": 9,
-        "item": 2,
-        "dataAta": "2025-09-24",
-        "tema": "Qualidade",
-        "assunto": "Desnível de piso acabado",
-        "descricao": "CTP - Informa que estão sendo encontrados nos apartamento pontos em que não será possível a instalação de de pisos que necessitem de 2 cm de cota, nas áreas sociais, por falta de cota no contrapiso ou irregularidades. 06/10/25 Demonstra o problema com cota de piso também na unidades personalizadas que possuem a necessidade instalação de piso de madeira.",
-        "acao": "20/10/2025 - BNX-C - Está mapeando os pavimentos para corrigí-los.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 41,
-        "ata": 9,
-        "item": 3,
-        "dataAta": "2025-09-24",
-        "tema": "Qualidade",
-        "assunto": "Aterro controlado",
-        "descricao": "CTP - Informa sobre execução de aterro em condições inadequadas para execução de aterro conforme NBR 5681.",
-        "acao": "20/10/25 - BNX-C - Ponto foi corrigido.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "2025-10-20",
-        "status": "Fechado"
-      },
-      {
-        "seq": 42,
-        "ata": 9,
-        "item": 4,
-        "dataAta": "2025-09-24",
-        "tema": "Segurança",
-        "assunto": "Não atendimento a NR 18",
-        "descricao": "CTP - Demonstra ocorrências de funcionários trabalhando sem ancoragem e EPIS, aberturas no piso, poço de elevador sem proteção, necessidade de manuntenção de EPC e também falta de iluminação em escadas.\n",
-        "acao": "",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 43,
-        "ata": 10,
-        "item": 1,
-        "dataAta": "2025-10-06",
-        "tema": "Segurança",
-        "assunto": "Não atendimento a NR 18",
-        "descricao": "CTP - Demonstra ocorrências de funcionários trabalhando sem ancoragem e  necessidade de manuntenção de EPC e uso inadequado de plataforma de trabalho apontadas no SnagR.\n",
-        "acao": "",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 44,
-        "ata": 10,
-        "item": 2,
-        "dataAta": "2025-10-06",
-        "tema": "Qualidade",
-        "assunto": "Personalização",
-        "descricao": "CTP - Demosntra relatório específico nº 29 sobre o rerabalho em unidades personalizadas. Parede/Caixilho/Piso e Forro. 20/10/2025 - Apresenta novos apontamentos sobre seviços executados que precisarão ser desfeitos  no unidade 426 e unidade 106.",
-        "acao": "20/10/25 -  BNX-C - Contratação dos apartamentos personalizados em andamento. A obra realizará os ajustes necessários, conforme indicado em projeto.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Crítica"
-      },
-      {
-        "seq": 45,
-        "ata": 10,
-        "item": 3,
-        "dataAta": "2025-10-06",
-        "tema": "Qualidade",
-        "assunto": "Isolamento dreno ar condicionado",
-        "descricao": "CTP - Demonstra ausência de isolamento no dreno do ar condicionado no apartamentos durante a etapa de plaqueamento.",
-        "acao": "20/10/25 - BNX-C vai corrigir os problemas encontrados e serão registrados no SNAGR.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 46,
-        "ata": 11,
-        "item": 1,
-        "dataAta": "2025-10-20",
-        "tema": "Segurança",
-        "assunto": "Centro Médico",
-        "descricao": "CTP - Apresentou apontamentos com falhas nos EPC's, entende-se a condição como fator da execução dos serviços porém a condição de deve ser monitorada e serem adotadas ações de isolamento das áreas em atividade, com a posterior manutenção dos EPC's ou outra medida alteriva registrada.",
-        "acao": "BNX-C - A Torre está com a atividades paralisadas para correção dos itens a previsão de término é dia 21/10/25",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 47,
-        "ata": 11,
-        "item": 2,
-        "dataAta": "2025-10-20",
-        "tema": "Segurança",
-        "assunto": "Trabalho em Altura na concretagem de pilares",
-        "descricao": "CTP - Apresenta apontamento de trabalhadores em condições inseguras no trabalho em altura para concretagem de pilares, questiona sobre qual a necessidade dessa atividade nessas condições visto que se pode aguardar uma condição na qual a laje esteja minimamente assoalhada e as proteções executadas. ",
-        "acao": "BNX-C - Vai alinhar com o produção as ações de segurança antes da execução da concretagem dos pilares. Ação: Será implantado um caminho seguro sobre o barroteamento até os pilares a serem concretados. Nas áreas em torno dos pilares onde for possível a instalação de assoalho, este será executado.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 48,
-        "ata": 11,
-        "item": 3,
-        "dataAta": "2025-10-20",
-        "tema": "Qualidade",
-        "assunto": "Retrabalho Apartamentos Ambar",
-        "descricao": "CTP - Demonstra os retrabalho que estão acontecendo nos pavimento da AMBAR, que estão acabados e pintados.",
-        "acao": "BNX-C - Os pavimentos executados pela Ambar estão passando por revisão das instalações, a previsão é que ocorram em todos os pavimentos executados pela Ambar, informou também não se devem a falta de teste mas a problemas de com as instalações de dados.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 49,
-        "ata": 11,
-        "item": 4,
-        "dataAta": "2025-10-20",
-        "tema": "Qualidade",
-        "assunto": "Contenção Viário Interno",
-        "descricao": "CTP - Apresenta relatório específico nº 32 e repassa os principais pontos ro relatório, da necessida de controle técnológico e registro.",
-        "acao": "BNX-C - ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 50,
-        "ata": 11,
-        "item": 5,
-        "dataAta": "2025-10-20",
-        "tema": "Qualidade",
-        "assunto": "Comissionamento",
-        "descricao": "CTP - Solicita informações sobre o comissionamento, responsáveis e registros com ensaios e testes. Solicitamos que as documentações fiquem disponíveis para consulta na pasta da Qualidade.",
-        "acao": "BNX-C - Será informado na próxima reunião.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      },
-      {
-        "seq": 51,
-        "ata": 11,
-        "item": 6,
-        "dataAta": "2025-10-20",
-        "tema": "Qualidade",
-        "assunto": "Check List",
-        "descricao": "CTP - Explica como ocorreu o processo de check list no PG44 dentro da plataforma SnagR, ficou combinado o envio de exemplos para avaliação da Benx.",
-        "acao": "BNX-C - ",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Informativo"
-      },
-      {
-        "seq": 52,
-        "ata": 11,
-        "item": 7,
-        "dataAta": "2025-10-20",
-        "tema": "Qualidade",
-        "assunto": "Baixa Resistência no reforço do bloco PR-9",
-        "descricao": "CTP - Aguarda formalização sobre a liberação ou não do reforço do PR-9, cujo o resultado foi inferior ao especificado no projeto de reforço.",
-        "acao": "BNX-C - Aguarda retorno do projetista.",
-        "responsavel": "BNX-C",
-        "dataConclusao": "",
-        "status": "Aberta"
-      }
-    ];
+    // ### DADOS REMOVIDOS DAQUI E INICIALIZADOS COMO VAZIOS ###
+    let rawData = [];
 
-    // --- NOVA FUNÇÃO PARA CARREGAR RELATÓRIOS ---
-    async function carregarTabelaRelatorios() {
-        // MUDANÇA: Alvo agora é o container de cards
-        const container = document.getElementById('cards-relatorios-container');
-        if (!container) return; // Sai se o container não estiver na página
-
-        try {
-            // --- ALTERAÇÃO AQUI: Carregando 'Manifest.json' ---
-            const response = await fetch('Manifest.json'); 
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar o manifesto: ${response.statusText}`);
-            }
-            const relatorios = await response.json();
-
-            // Limpa o "Carregando..."
-            container.innerHTML = ''; 
-
-            // Popula o container com cards
-            if (relatorios.length > 0) {
-                relatorios.forEach(relatorio => {
-                    // Formata a data (opcional)
-                    let dataFormatada = 'N/A';
-                    if (relatorio.data) {
-                        try {
-                            dataFormatada = new Date(relatorio.data).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                        } catch (e) { console.warn("Data inválida:", relatorio.data); }
-                    }
-
-                    // MUDANÇA: Template de 'row' (linha) para 'card' (cartão)
-                    const card = `
-                        <div class="relatorio-card">
-                            <div class="relatorio-info">
-                                <h3>
-                                    <span class="relatorio-id">${relatorio.id || 'N/A'}</span>
-                                    ${relatorio.titulo || 'Sem Título'}
-                                </h3>
-                                <p class="descricao">${relatorio.descricao || 'Sem descrição'}</p>
-                                <span class="data">${dataFormatada}</span>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="action-btn btn-view" title="Visualizar" data-url="${relatorio.url}">
-                                    ${iconView}
-                                </button>
-                                <button class="action-btn btn-download" title="Baixar" data-url="${relatorio.url}" data-filename="${relatorio.id || 'relatorio'}.pdf">
-                                    ${iconDownload}
-                                </button>
-                                <button class="action-btn btn-share" title="Compartilhar" data-url="${relatorio.url}" data-title="${relatorio.titulo || 'Relatório'}">
-                                    ${iconShare}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += card;
-                });
-            } else {
-                // MUDANÇA: Mensagem de "Nenhum relatório" adaptada para o container
-                container.innerHTML = '<p style="text-align: center; padding: 20px;">Nenhum relatório encontrado no manifesto.</p>';
-            }
-        } catch (error) {
-            console.error("Falha ao carregar relatórios:", error);
-            // MUDANÇA: Mensagem de erro adaptada para o container
-            container.innerHTML = `<p style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (Manifest.json). Verifique o console.</p>`;
-        }
-    }
-
-    // --- NOVAS FUNÇÕES DE CARREGAMENTO ---
-    // Função para mostrar a tela de carregamento
-    function showLoading() {
-      const loadingScreen = document.getElementById('loading-screen');
-      if (loadingScreen) {
-        loadingScreen.style.display = 'flex'; // Exibe a tela de carregamento
-        loadingScreen.style.opacity = '1';
-      }
-    }
-
-    // Função para ocultar a tela de carregamento
-    function hideLoading() {
-      const loadingScreen = document.getElementById('loading-screen');
-      if (loadingScreen) {
-        loadingScreen.style.opacity = '0'; // Animação de fade-out
-        setTimeout(() => {
-          loadingScreen.style.display = 'none'; // Remove completamente após a animação
-        }, 300); // Tempo igual à duração da transição no CSS
-      }
-    }
-    // --- FIM DAS NOVAS FUNÇÕES ---
-
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        
-        showLoading(); // <-- MOSTRAR CARREGAMENTO
-
-        // --- SELETORES DE NAVEGAÇÃO E PÁGINAS (ATUALIZADOS) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- ATUALIZAÇÃO DA NAVEGAÇÃO ---
         const navHome = document.getElementById('nav-home');
         const navDashboard = document.getElementById('nav-dashboard');
         const navReport = document.getElementById('nav-report');
-        const navApontamentos = document.getElementById('nav-apontamentos'); // Adicionado
-        const navRelatoriosEspecificos = document.getElementById('nav-relatorios-especificos'); // NOVO
-
+        
         const landingPage = document.getElementById('landing-page');
         const dashboardPage = document.getElementById('dashboard-page');
         const reportPage = document.getElementById('report-page');
-        const apontamentosPage = document.getElementById('apontamentos-page'); // Adicionado
-        const relatoriosEspecificosPage = document.getElementById('relatorios-especificos-page'); // NOVO
         
         const ctaButton = document.getElementById('cta-button');
 
-        // --- NOVOS SELETORES PARA MODAL DE PDF E TABELA ---
-        const pdfViewModal = document.getElementById('pdfViewModal');
-        const closePdfModalBtn = document.getElementById('close-pdf-modal');
-        const pdfIframe = document.getElementById('pdf-view-iframe');
-        // MUDANÇA: Seletor do body da tabela atualizado para o container de cards
-        const relatoriosContainer = document.getElementById('cards-relatorios-container');
-        
-        // --- NOVOS SELETORES PARA MAXIMIZAR SITE EXTERNO ---
-        const fullscreenExternalBtn = document.getElementById('btn-fullscreen-external');
-        const externalSiteContainer = document.getElementById('external-site-container');
-
-
-        // --- FUNÇÃO PARA MOSTRAR PÁGINAS (ATUALIZADA) ---
         function showPage(pageId) {
-            // Esconde todas as páginas
-            [landingPage, dashboardPage, reportPage, apontamentosPage, relatoriosEspecificosPage].forEach(page => {
-                 if(page) page.style.display = 'none';
-            });
+            landingPage.style.display = 'none';
+            dashboardPage.style.display = 'none';
+            reportPage.style.display = 'none';
 
             // Mostra a página correta
-            const pageToShow = document.getElementById(pageId);
-            if(pageToShow) {
-                 pageToShow.style.display = pageId === 'landing-page' ? 'flex' : 'block';
-            }
-
-            // Atualiza a classe 'active' em todos os links nav
-            [navHome, navDashboard, navReport, navApontamentos, navRelatoriosEspecificos].forEach(navLink => {
-                 if(navLink) navLink.classList.remove('active');
-            });
-             // Adiciona 'active' ao link clicado
-            const activeNavLink = document.getElementById(`nav-${pageId.replace('-page', '')}`);
-            if(activeNavLink) activeNavLink.classList.add('active');
+            document.getElementById(pageId).style.display = pageId === 'landing-page' ? 'flex' : 'block';
+            
+            // Atualiza a classe 'active'
+            navHome.classList.toggle('active', pageId === 'landing-page');
+            navDashboard.classList.toggle('active', pageId === 'dashboard-page');
+            navReport.classList.toggle('active', pageId === 'report-page');
         }
 
-        // --- LISTENERS DE NAVEGAÇÃO (ATUALIZADOS) ---
-        if(navHome) navHome.addEventListener('click', (e) => { e.preventDefault(); showPage('landing-page'); });
-        if(navDashboard) navDashboard.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
-        if(navReport) navReport.addEventListener('click', (e) => { e.preventDefault(); showPage('report-page'); });
-        if(navApontamentos) navApontamentos.addEventListener('click', (e) => { e.preventDefault(); showPage('apontamentos-page'); });
-        if(navRelatoriosEspecificos) navRelatoriosEspecificos.addEventListener('click', (e) => { e.preventDefault(); showPage('relatorios-especificos-page'); }); // NOVO
-        if(ctaButton) ctaButton.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
-        // --- FIM DA NAVEGAÇÃO ---
+        // Adiciona listeners para todas as guias
+        navHome.addEventListener('click', (e) => { e.preventDefault(); showPage('landing-page'); });
+        navDashboard.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
+        navReport.addEventListener('click', (e) => { e.preventDefault(); showPage('report-page'); });
+        ctaButton.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
+        // --- FIM DA ATUALIZAÇÃO DA NAVEGAÇÃO ---
 
 
         // --- REMOVIDO: CSV Upload Logic ---
@@ -1837,7 +731,7 @@
                             switch (status) {
                                 case 'Fechado': return '#9FC419';
                                 case 'Aberta': return '#dc3545';
-                                case 'Crítica': return '#FF2800'; /* <-- COR ALTERADA */
+                                case 'Crítica': return '#b30000';
                                 case 'Informativo': return '#6c757d';
                                 case 'Em análise': return '#ffc107';
                                 default: return '#cccccc';
@@ -1947,18 +841,70 @@
         }
         
         // --- FUNÇÕES DE UPLOAD REMOVIDAS ---
-        // handleFileUpload, parseCSV, resetAndReloadDashboard
+        // handleFileUpload, parseCSV
+
+        function resetAndReloadDashboard() {
+             const statusOptions = document.getElementById('statusFilter')?.querySelector('.options-container');
+            const temaOptions = document.getElementById('temaFilter')?.querySelector('.options-container');
+            const assuntoOptions = document.getElementById('assuntoFilter')?.querySelector('.options-container');
+
+            if (statusOptions) statusOptions.innerHTML = '';
+            if (temaOptions) temaOptions.innerHTML = '';
+            if (assuntoOptions) assuntoOptions.innerHTML = '';
+
+            document.querySelectorAll('.multiselect .select-box span').forEach((span) => {
+                const parentId = span.closest('.multiselect')?.id;
+                if (parentId === 'statusFilter') span.textContent = 'Todos os Status';
+                else if (parentId === 'temaFilter') span.textContent = 'Todos os Temas';
+                else if (parentId === 'assuntoFilter') span.textContent = 'Todos os Assuntos';
+            });
+            
+             document.querySelectorAll('.multiselect input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+            populateFilters();
+            updateDashboard();
+        }
+
 
         Chart.register(ChartDataLabels);
         
-        // --- Inicialização do Dashboard ---
-        function initializeDashboard() {
+        // --- ### FUNÇÃO DE INICIALIZAÇÃO ATUALIZADA ### ---
+        async function initializeDashboard() {
+            // Garante que os elementos do dashboard existam
             if(document.getElementById('dashboard-page') && document.getElementById('statusFilter')) {
-                populateFilters();
-                setupMultiSelect('statusFilter');
+                
+                // --- NOVO: Carregar dados do ATA.json ---
+                try {
+                    const response = await fetch('ATA.json'); // Carrega o arquivo
+                    if (!response.ok) {
+                        throw new Error(`Erro ao carregar ATA.json: ${response.statusText}`);
+                    }
+                    rawData = await response.json(); // Popula a variável global
+                    
+                    if (rawData.length === 0) {
+                         console.warn("ATA.json foi carregado, mas está vazio.");
+                         const tableBody = document.querySelector("#dataTable tbody");
+                         if (tableBody) {
+                            tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Arquivo de dados (ATA.json) está vazio.</td></tr>`;
+                         }
+                    }
+                    
+                } catch (error) {
+                    console.error("Falha ao carregar dados da ata:", error);
+                    // Exibe um erro amigável na tabela
+                    const tableBody = document.querySelector("#dataTable tbody");
+                    if (tableBody) {
+                        tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--cor-alerta);">Falha ao carregar dados (ATA.json). Verifique o console.</td></tr>`;
+                    }
+                    return; // Para a execução se os dados falharem
+                }
+                // --- FIM DA ADIÇÃO ---
+
+                populateFilters(); // Popula filtros primeiro
+                setupMultiSelect('statusFilter'); // Configura interatividade dos filtros
                 setupMultiSelect('temaFilter');
                 setupMultiSelect('assuntoFilter');
-                updateDashboard();
+                updateDashboard(); // Renderiza KPIs, gráficos e tabela
             } else {
                 console.error("Elementos do dashboard não encontrados para inicialização.");
             }
@@ -1969,14 +915,13 @@
         if (dashboardPage && dashboardPage.style.display !== 'none') {
             initializeDashboard();
         }
-        
-        await carregarTabelaRelatorios(); // <-- ESPERA OS RELATÓRIOS CARREGAREM
 
         // Listener para inicializar o dashboard quando ele for exibido pela navegação
         if (navDashboard) {
             navDashboard.addEventListener('click', (e) => {
                  e.preventDefault();
-                if (!statusChart) { 
+                // Carrega os dados e inicializa apenas na primeira vez que for clicado
+                if (rawData.length === 0 && !statusChart) { // Verifica se rawData está vazio
                     initializeDashboard();
                 }
                 showPage('dashboard-page');
@@ -1997,12 +942,12 @@
             });
         }
 
-        // --- LISTENERS DOS MODAIS E AÇÕES (ATUALIZADOS) ---
+        // --- LISTENERS DOS MODAIS E AÇÕES ---
         
         // Listener para o modal de detalhes da tabela principal
         const tableBody = document.querySelector("#dataTable tbody");
         const modal = document.getElementById('detailsModal');
-        const closeModalBtn = document.querySelector('.close-button'); // Assumindo que este é o do modal de detalhes
+        const closeModalBtn = document.querySelector('.close-button');
         const modalSeq = document.getElementById('modalSeq');
         const modalDesc = document.getElementById('modalDesc');
         const modalAcao = document.getElementById('modalAcao');
@@ -2022,96 +967,14 @@
                                             ? "Não há ação definida."
                                             : String(itemData.acao);
                     modal.style.display = 'block';
-                    modal.classList.add('show'); // Para nova animação
                 }
             });
         }
          if (closeModalBtn) {
             closeModalBtn.addEventListener('click', () => {
-                if(modal) {
-                     modal.classList.remove('show');
-                    setTimeout(() => modal.style.display = 'none', 300); // Sincroniza com a transição
-                }
+                if(modal) modal.style.display = 'none';
             });
         }
-
-        // --- NOVOS LISTENERS PARA A TABELA DE RELATÓRIOS ---
-        // MUDANÇA: Listener agora está no 'relatoriosContainer'
-        if (relatoriosContainer) {
-            relatoriosContainer.addEventListener('click', (e) => {
-                const target = e.target; // O elemento exato clicado (pode ser o SVG ou o PATH)
-
-                // Ação: Visualizar PDF
-                const viewBtn = target.closest('.btn-view');
-                if (viewBtn) {
-                    e.preventDefault();
-                    const url = viewBtn.dataset.url;
-                    if (pdfIframe) pdfIframe.src = url;
-                    if (pdfViewModal) {
-                        pdfViewModal.style.display = 'block';
-                        pdfViewModal.classList.add('show');
-                    }
-                }
-
-                // Ação: Baixar PDF
-                const downloadBtn = target.closest('.btn-download');
-                if (downloadBtn) {
-                    e.preventDefault();
-                    const url = downloadBtn.dataset.url;
-                    const filename = downloadBtn.dataset.filename || 'relatorio.pdf';
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }
-
-                // Ação: Compartilhar PDF
-                const shareBtn = target.closest('.btn-share');
-                if (shareBtn) {
-                    e.preventDefault();
-                    const url = shareBtn.dataset.url;
-                    const title = shareBtn.dataset.title;
-                    // Converte URL relativa para absoluta para o compartilhamento
-                    const absoluteUrl = new URL(url, window.location.href).href; 
-
-                    if (navigator.share) {
-                        // API de Compartilhamento Nativa (celulares)
-                        navigator.share({
-                            title: title,
-                            text: `Confira este relatório: ${title}`,
-                            url: absoluteUrl
-                        }).catch(console.error);
-                    } else if (navigator.clipboard) {
-                        // Fallback: Copiar para Área de Transferência (desktop)
-                        navigator.clipboard.writeText(absoluteUrl).then(() => {
-                            alert('Link do relatório copiado para a área de transferência!');
-                        }).catch(() => {
-                            window.prompt("Não foi possível copiar automaticamente. Copie este link:", absoluteUrl);
-                        });
-                    } else {
-                        // Fallback final
-                        window.prompt("Copie este link para compartilhar:", absoluteUrl);
-                    }
-                }
-            });
-        }
-
-        // Ação: Fechar o novo modal de PDF
-        if (closePdfModalBtn) {
-            closePdfModalBtn.addEventListener('click', () => {
-                if (pdfViewModal) {
-                    pdfViewModal.classList.remove('show');
-                    setTimeout(() => {
-                        pdfViewModal.style.display = 'none';
-                        if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
-                    }, 300);
-                }
-            });
-        }
-
-        // --- FIM DOS NOVOS LISTENERS ---
 
 
         // --- SCRIPT PARA TELA CHEIA DO PDF (Relatório Principal) ---
@@ -2133,23 +996,7 @@
         }
         // --- FIM DO SCRIPT TELA CHEIA ---
 
-        // --- NOVO SCRIPT PARA TELA CHEIA DO SITE EXTERNO ---
-        if (fullscreenExternalBtn && externalSiteContainer) {
-            fullscreenExternalBtn.addEventListener('click', () => {
-                if (externalSiteContainer.requestFullscreen) {
-                    externalSiteContainer.requestFullscreen();
-                } else if (externalSiteContainer.mozRequestFullScreen) { /* Firefox */
-                    externalSiteContainer.mozRequestFullScreen();
-                } else if (externalSiteContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                    externalSiteContainer.webkitRequestFullscreen();
-                } else if (externalSiteContainer.msRequestFullscreen) { /* IE/Edge */
-                    externalSiteContainer.msRequestFullscreen();
-                }
-            });
-        }
-        // --- FIM DO NOVO SCRIPT ---
-
-        // Listener global de clique (ATUALIZADO)
+        // Listener global de clique
         window.addEventListener('click', (event) => {
             // Fecha dropdowns
             if (!event.target.closest('.multiselect')) {
@@ -2157,21 +1004,9 @@
             }
             // Fecha modal de detalhes
             if (modal && event.target == modal) {
-                modal.classList.remove('show');
-                setTimeout(() => modal.style.display = 'none', 300);
-            }
-            // Fecha novo modal de PDF
-            if (pdfViewModal && event.target == pdfViewModal) {
-                pdfViewModal.classList.remove('show');
-                setTimeout(() => {
-                    pdfViewModal.style.display = 'none';
-                    if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
-                }, 300);
+                modal.style.display = 'none';
             }
         });
-        
-        hideLoading(); // <-- OCULTAR CARREGAMENTO
-
     });
 </script>
 
