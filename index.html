@@ -508,7 +508,7 @@
     </footer>
 
 <script>
-    // ### DADOS REMOVIDOS DAQUI E INICIALIZADOS COMO VAZIOS ###
+    // ### DADOS DA ATA INICIALIZADOS COMO VAZIOS ###
     let rawData = [];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -841,7 +841,6 @@
         }
         
         // --- FUNÇÕES DE UPLOAD REMOVIDAS ---
-        // handleFileUpload, parseCSV
 
         function resetAndReloadDashboard() {
              const statusOptions = document.getElementById('statusFilter')?.querySelector('.options-container');
@@ -910,19 +909,22 @@
             }
         }
 
-        // --- CARREGAMENTO INICIAL ---
-        // Garante que o dashboard seja inicializado se for a página ativa no carregamento
-        if (dashboardPage && dashboardPage.style.display !== 'none') {
-            initializeDashboard();
-        }
+        // --- CARREGAMENTO INICIAL (ATUALIZADO) ---
+        (async () => {
+            // Garante que o dashboard seja inicializado se for a página ativa no carregamento
+            if (dashboardPage && dashboardPage.style.display !== 'none') {
+                await initializeDashboard(); // Aguarda o carregamento dos dados
+            }
+        })();
 
-        // Listener para inicializar o dashboard quando ele for exibido pela navegação
+
+        // Listener para inicializar o dashboard quando ele for exibido pela navegação (ATUALIZADO)
         if (navDashboard) {
-            navDashboard.addEventListener('click', (e) => {
+            navDashboard.addEventListener('click', async (e) => { // Tornar async
                  e.preventDefault();
                 // Carrega os dados e inicializa apenas na primeira vez que for clicado
                 if (rawData.length === 0 && !statusChart) { // Verifica se rawData está vazio
-                    initializeDashboard();
+                    await initializeDashboard(); // Aguarda o carregamento
                 }
                 showPage('dashboard-page');
             });
@@ -975,7 +977,6 @@
                 if(modal) modal.style.display = 'none';
             });
         }
-
 
         // --- SCRIPT PARA TELA CHEIA DO PDF (Relatório Principal) ---
         const fullscreenBtn = document.getElementById('btn-fullscreen-pdf');
