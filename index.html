@@ -154,7 +154,17 @@
         .em-aberto .value { color: var(--cor-alerta); }
         .total-itens .value { color: var(--cor-primaria); }
 
-        /* Estilos de tendência removidos */
+        .kpi-trend {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 1.2em; /* Garante espaço mesmo vazio */
+        }
+        /* Trend styles kept for potential future use, but content is cleared by JS */
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        .trend-stable { color: #6c757d; }
+
 
         .filters {
             display: flex;
@@ -175,7 +185,7 @@
             background-color: #f8f9fa;
             cursor: pointer;
         }
-        
+
         .multiselect {
             position: relative;
             min-width: 180px;
@@ -294,15 +304,15 @@
         }
 
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.5); 
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
         }
 
         .modal-content {
@@ -373,6 +383,122 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* --- NOVOS ESTILOS PARA RELATÓRIOS ESPECÍFICOS --- */
+
+        /* Estiliza a tabela para um visual moderno */
+        #tabela-relatorios {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden; /* Garante que o radius funcione no thead */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        #tabela-relatorios th,
+        #tabela-relatorios td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle; /* <-- CORREÇÃO DE ALINHAMENTO */
+        }
+
+        #tabela-relatorios thead th {
+            background-color: #f8f9fa;
+            color: var(--cor-primaria);
+            font-weight: 600;
+        }
+
+        #tabela-relatorios tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        #tabela-relatorios tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        #tabela-relatorios td:first-child {
+            font-weight: 600;
+            color: #333;
+        }
+        #tabela-relatorios td:nth-child(2) {
+            font-size: 0.95em;
+            color: #555;
+        }
+        #tabela-relatorios td:nth-child(3) {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* Estilos para os botões de ação com ícones */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #555; /* Cor padrão do ícone */
+            transition: fill 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .action-btn.btn-view:hover { background-color: #e6f0ff; }
+        .action-btn.btn-view:hover svg { fill: #0056b3; } /* Azul */
+
+        .action-btn.btn-download:hover { background-color: #e4f8e5; }
+        .action-btn.btn-download:hover svg { fill: #28a745; } /* Verde */
+
+        .action-btn.btn-share:hover { background-color: #fff3cd; }
+        .action-btn.btn-share:hover svg { fill: #856404; } /* Laranja/Amarelo */
+
+        /* Estilos para o novo modal de PDF */
+        #pdfViewModal .modal-content {
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh; /* 90% da altura da tela */
+            padding: 10px; /* Reduz o padding para dar mais espaço ao iframe */
+            background-color: #333; /* Fundo escuro para o modal */
+        }
+
+        #pdfViewModal .close-button {
+            position: absolute;
+            top: 15px; /* Ajustado para o novo padding */
+            right: 25px; /* Ajustado para o novo padding */
+            color: #fff; /* Botão de fechar branco */
+            font-size: 35px;
+            opacity: 0.8;
+        }
+        #pdfViewModal .close-button:hover {
+            opacity: 1;
+        }
+
+        #pdf-view-iframe {
+            width: 100%;
+            height: calc(100% - 15px); /* Ajusta altura para o padding */
+            border: 1px solid #555;
+            background-color: #fff;
+        }
+        
     </style>
 </head>
 <body>
@@ -384,6 +510,8 @@
                 <li><a id="nav-home" class="active">Página Principal</a></li>
                 <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li>
                 <li><a id="nav-report">Relatório</a></li>
+                <li><a id="nav-apontamentos">Apontamentos</a></li>
+                <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li>
             </ul>
         </nav>
     </header>
@@ -492,6 +620,52 @@
             </iframe>
         </div>
     </div>
+    
+    <div id="apontamentos-page" class="container" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+             <h1>Apontamentos</h1>
+             <button id="btn-fullscreen-external" style="padding: 8px 15px; background-color: var(--cor-primaria); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Maximizar</button>
+        </div>
+
+        <div id="external-site-container" class="external-site-container" style="height: 90vh; border: 1px solid #ccc; background: #eee;">
+             <iframe
+                src="https://fluz1.github.io/SnagR37/"
+                width="100%"
+                height="100%"
+                style="border: none;"
+                allowfullscreen>
+                <p style="padding: 20px; text-align: center;">
+                    O seu navegador não suporta iframes ou o site externo bloqueia a incorporação.
+                    <br>
+                    <a href="https://fluz1.github.io/SnagR37/" target="_blank" style="color: var(--cor-primaria); font-weight: bold;">
+                        Clique aqui para abrir o site em uma nova aba
+                    </a>.
+                </p>
+            </iframe>
+        </div>
+    </div>
+    <div id="relatorios-especificos-page" class="container" style="display: none;">
+        <h1>Relatórios Específicos</h1>
+        <p>Repositório de documentos técnicos, laudos e relatórios específicos do projeto.</p>
+        
+        <div class="table-container">
+            <table id="tabela-relatorios">
+                <thead>
+                    <tr>
+                        <th>Relatório</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th style="width: 150px; text-align: center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-relatorios-tbody">
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px;">Carregando relatórios...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div id="detailsModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -502,47 +676,140 @@
             <p id="modalAcao"></p>
         </div>
     </div>
-    
+
+    <div id="pdfViewModal" class="modal">
+        <div class="modal-content" style="width: 90%; max-width: 1200px; height: 90vh; padding: 10px;">
+            <span class="close-button" id="close-pdf-modal">&times;</span>
+            <iframe id="pdf-view-iframe" src="" style="width: 100%; height: calc(100% - 20px); border: none;"></iframe>
+        </div>
+    </div>
     <footer>
         <p>Felipe Luz - Desenvolvimento</p>
     </footer>
 
 <script>
+    // --- NOVOS ÍCONES SVG ---
+    const iconView = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 2c-4.001 0-7.271 2.91-8.129 7C4.729 16.09 7.999 19 12 19s7.271-2.91 8.129-7C19.271 7.91 16.001 5 12 5zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`;
+    const iconDownload = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"/></svg>`;
+    const iconShare = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18 8c.552 0 1 .448 1 1v11.008c0 .55-.448.992-1 .992H6c-.552 0-1-.448-1-.992V9c0-.552.448-1 1-1h3V6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V8h3zM8 8h8V7.5h-4V8H8v11h8V9H8v9zm5-4.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V5h2V3.5zM7 11h2v2H7v-2zm0 3h2v2H7v-2zm0 3h2v2H7v-2z"/></svg>`;
+    
     // ### DADOS DA ATA INICIALIZADOS COMO VAZIOS ###
     let rawData = [];
 
+    // --- NOVA FUNÇÃO PARA CARREGAR RELATÓRIOS ---
+    async function carregarTabelaRelatorios() {
+        const tbody = document.getElementById('tabela-relatorios-tbody');
+        if (!tbody) return; // Sai se a tabela não estiver na página
+
+        try {
+            // --- Carregando 'Manifest.json' ---
+            const response = await fetch('Manifest.json'); 
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar o manifesto: ${response.statusText}`);
+            }
+            const relatorios = await response.json();
+
+            // Limpa o "Carregando..."
+            tbody.innerHTML = ''; 
+
+            // Popula a tabela
+            if (relatorios.length > 0) {
+                relatorios.forEach(relatorio => {
+                    // Formata a data (opcional)
+                    let dataFormatada = 'N/A';
+                    if (relatorio.data) {
+                        try {
+                            dataFormatada = new Date(relatorio.data).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                        } catch (e) { console.warn("Data inválida:", relatorio.data); }
+                    }
+
+                    const row = `
+                        <tr>
+                            <td>${relatorio.titulo || 'Sem Título'}</td>
+                            <td>${relatorio.descricao || 'Sem descrição'}</td>
+                            <td>${dataFormatada}</td>
+                            <td class="action-buttons">
+                                <button class="action-btn btn-view" title="Visualizar" data-url="${relatorio.url}">
+                                    ${iconView}
+                                </button>
+                                <button class="action-btn btn-download" title="Baixar" data-url="${relatorio.url}" data-filename="${relatorio.id || 'relatorio'}.pdf">
+                                    ${iconDownload}
+                                </button>
+                                <button class="action-btn btn-share" title="Compartilhar" data-url="${relatorio.url}" data-title="${relatorio.titulo || 'Relatório'}">
+                                    ${iconShare}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Nenhum relatório encontrado no manifesto.</td></tr>';
+            }
+        } catch (error) {
+            console.error("Falha ao carregar relatórios:", error);
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (Manifest.json). Verifique o console.</td></tr>`;
+        }
+    }
+
+
     document.addEventListener('DOMContentLoaded', () => {
-        // --- ATUALIZAÇÃO DA NAVEGAÇÃO ---
+        // --- SELETORES DE NAVEGAÇÃO E PÁGINAS (ATUALIZADOS) ---
         const navHome = document.getElementById('nav-home');
         const navDashboard = document.getElementById('nav-dashboard');
         const navReport = document.getElementById('nav-report');
-        
+        const navApontamentos = document.getElementById('nav-apontamentos'); // Adicionado
+        const navRelatoriosEspecificos = document.getElementById('nav-relatorios-especificos'); // NOVO
+
         const landingPage = document.getElementById('landing-page');
         const dashboardPage = document.getElementById('dashboard-page');
         const reportPage = document.getElementById('report-page');
+        const apontamentosPage = document.getElementById('apontamentos-page'); // Adicionado
+        const relatoriosEspecificosPage = document.getElementById('relatorios-especificos-page'); // NOVO
         
         const ctaButton = document.getElementById('cta-button');
 
+        // --- NOVOS SELETORES PARA MODAL DE PDF E TABELA ---
+        const pdfViewModal = document.getElementById('pdfViewModal');
+        const closePdfModalBtn = document.getElementById('close-pdf-modal');
+        const pdfIframe = document.getElementById('pdf-view-iframe');
+        const tabelaRelatoriosBody = document.getElementById('tabela-relatorios-tbody');
+        
+        // --- NOVOS SELETORES PARA MAXIMIZAR SITE EXTERNO ---
+        const fullscreenExternalBtn = document.getElementById('btn-fullscreen-external');
+        const externalSiteContainer = document.getElementById('external-site-container');
+
+
+        // --- FUNÇÃO PARA MOSTRAR PÁGINAS (ATUALIZADA) ---
         function showPage(pageId) {
-            landingPage.style.display = 'none';
-            dashboardPage.style.display = 'none';
-            reportPage.style.display = 'none';
+            // Esconde todas as páginas
+            [landingPage, dashboardPage, reportPage, apontamentosPage, relatoriosEspecificosPage].forEach(page => {
+                 if(page) page.style.display = 'none';
+            });
 
             // Mostra a página correta
-            document.getElementById(pageId).style.display = pageId === 'landing-page' ? 'flex' : 'block';
-            
-            // Atualiza a classe 'active'
-            navHome.classList.toggle('active', pageId === 'landing-page');
-            navDashboard.classList.toggle('active', pageId === 'dashboard-page');
-            navReport.classList.toggle('active', pageId === 'report-page');
+            const pageToShow = document.getElementById(pageId);
+            if(pageToShow) {
+                 pageToShow.style.display = pageId === 'landing-page' ? 'flex' : 'block';
+            }
+
+            // Atualiza a classe 'active' em todos os links nav
+            [navHome, navDashboard, navReport, navApontamentos, navRelatoriosEspecificos].forEach(navLink => {
+                 if(navLink) navLink.classList.remove('active');
+            });
+             // Adiciona 'active' ao link clicado
+            const activeNavLink = document.getElementById(`nav-${pageId.replace('-page', '')}`);
+            if(activeNavLink) activeNavLink.classList.add('active');
         }
 
-        // Adiciona listeners para todas as guias
-        navHome.addEventListener('click', (e) => { e.preventDefault(); showPage('landing-page'); });
-        navDashboard.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
-        navReport.addEventListener('click', (e) => { e.preventDefault(); showPage('report-page'); });
-        ctaButton.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
-        // --- FIM DA ATUALIZAÇÃO DA NAVEGAÇÃO ---
+        // --- LISTENERS DE NAVEGAÇÃO (ATUALIZADOS) ---
+        if(navHome) navHome.addEventListener('click', (e) => { e.preventDefault(); showPage('landing-page'); });
+        if(navDashboard) navDashboard.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
+        if(navReport) navReport.addEventListener('click', (e) => { e.preventDefault(); showPage('report-page'); });
+        if(navApontamentos) navApontamentos.addEventListener('click', (e) => { e.preventDefault(); showPage('apontamentos-page'); });
+        if(navRelatoriosEspecificos) navRelatoriosEspecificos.addEventListener('click', (e) => { e.preventDefault(); showPage('relatorios-especificos-page'); }); // NOVO
+        if(ctaButton) ctaButton.addEventListener('click', (e) => { e.preventDefault(); showPage('dashboard-page'); });
+        // --- FIM DA NAVEGAÇÃO ---
 
 
         // --- REMOVIDO: CSV Upload Logic ---
@@ -915,6 +1182,8 @@
             if (dashboardPage && dashboardPage.style.display !== 'none') {
                 await initializeDashboard(); // Aguarda o carregamento dos dados
             }
+            // Carrega a tabela de relatórios específicos assim que a página é carregada
+            carregarTabelaRelatorios(); 
         })();
 
 
@@ -944,7 +1213,7 @@
             });
         }
 
-        // --- LISTENERS DOS MODAIS E AÇÕES ---
+        // --- LISTENERS DOS MODAIS E AÇÕES (ATUALIZADOS) ---
         
         // Listener para o modal de detalhes da tabela principal
         const tableBody = document.querySelector("#dataTable tbody");
@@ -978,6 +1247,76 @@
             });
         }
 
+        // --- NOVOS LISTENERS PARA A TABELA DE RELATÓRIOS ---
+        if (tabelaRelatoriosBody) {
+            tabelaRelatoriosBody.addEventListener('click', (e) => {
+                const target = e.target; // O elemento exato clicado (pode ser o SVG ou o PATH)
+
+                // Ação: Visualizar PDF
+                const viewBtn = target.closest('.btn-view');
+                if (viewBtn) {
+                    e.preventDefault();
+                    const url = viewBtn.dataset.url;
+                    if (pdfIframe) pdfIframe.src = url;
+                    if (pdfViewModal) pdfViewModal.style.display = 'block';
+                }
+
+                // Ação: Baixar PDF
+                const downloadBtn = target.closest('.btn-download');
+                if (downloadBtn) {
+                    e.preventDefault();
+                    const url = downloadBtn.dataset.url;
+                    const filename = downloadBtn.dataset.filename || 'relatorio.pdf';
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+
+                // Ação: Compartilhar PDF
+                const shareBtn = target.closest('.btn-share');
+                if (shareBtn) {
+                    e.preventDefault();
+                    const url = shareBtn.dataset.url;
+                    const title = shareBtn.dataset.title;
+                    // Converte URL relativa para absoluta para o compartilhamento
+                    const absoluteUrl = new URL(url, window.location.href).href; 
+
+                    if (navigator.share) {
+                        // API de Compartilhamento Nativa (celulares)
+                        navigator.share({
+                            title: title,
+                            text: `Confira este relatório: ${title}`,
+                            url: absoluteUrl
+                        }).catch(console.error);
+                    } else if (navigator.clipboard) {
+                        // Fallback: Copiar para Área de Transferência (desktop)
+                        navigator.clipboard.writeText(absoluteUrl).then(() => {
+                            alert('Link do relatório copiado para a área de transferência!');
+                        }).catch(() => {
+                            window.prompt("Não foi possível copiar automaticamente. Copie este link:", absoluteUrl);
+                        });
+                    } else {
+                        // Fallback final
+                        window.prompt("Copie este link para compartilhar:", absoluteUrl);
+                    }
+                }
+            });
+        }
+
+        // Ação: Fechar o novo modal de PDF
+        if (closePdfModalBtn) {
+            closePdfModalBtn.addEventListener('click', () => {
+                if (pdfViewModal) pdfViewModal.style.display = 'none';
+                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe para parar o carregamento
+            });
+        }
+
+        // --- FIM DOS NOVOS LISTENERS ---
+
+
         // --- SCRIPT PARA TELA CHEIA DO PDF (Relatório Principal) ---
         const fullscreenBtn = document.getElementById('btn-fullscreen-pdf');
         const pdfContainer = document.getElementById('pdf-container');
@@ -997,7 +1336,23 @@
         }
         // --- FIM DO SCRIPT TELA CHEIA ---
 
-        // Listener global de clique
+        // --- NOVO SCRIPT PARA TELA CHEIA DO SITE EXTERNO ---
+        if (fullscreenExternalBtn && externalSiteContainer) {
+            fullscreenExternalBtn.addEventListener('click', () => {
+                if (externalSiteContainer.requestFullscreen) {
+                    externalSiteContainer.requestFullscreen();
+                } else if (externalSiteContainer.mozRequestFullScreen) { /* Firefox */
+                    externalSiteContainer.mozRequestFullScreen();
+                } else if (externalSiteContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    externalSiteContainer.webkitRequestFullscreen();
+                } else if (externalSiteContainer.msRequestFullscreen) { /* IE/Edge */
+                    externalSiteContainer.msRequestFullscreen();
+                }
+            });
+        }
+        // --- FIM DO NOVO SCRIPT ---
+
+        // Listener global de clique (ATUALIZADO)
         window.addEventListener('click', (event) => {
             // Fecha dropdowns
             if (!event.target.closest('.multiselect')) {
@@ -1006,6 +1361,11 @@
             // Fecha modal de detalhes
             if (modal && event.target == modal) {
                 modal.style.display = 'none';
+            }
+            // Fecha novo modal de PDF
+            if (pdfViewModal && event.target == pdfViewModal) {
+                pdfViewModal.style.display = 'none';
+                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
             }
         });
     });
