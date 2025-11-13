@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Análise de Ações</title>
+    <title>Qualidade e Sergurança</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <style>
@@ -154,7 +154,17 @@
         .em-aberto .value { color: var(--cor-alerta); }
         .total-itens .value { color: var(--cor-primaria); }
 
-        /* Estilos de tendência removidos */
+        .kpi-trend {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 1.2em; /* Garante espaço mesmo vazio */
+        }
+        /* Trend styles kept for potential future use, but content is cleared by JS */
+        .trend-up { color: #28a745; }
+        .trend-down { color: #dc3545; }
+        .trend-stable { color: #6c757d; }
+
 
         .filters {
             display: flex;
@@ -175,7 +185,7 @@
             background-color: #f8f9fa;
             cursor: pointer;
         }
-        
+
         .multiselect {
             position: relative;
             min-width: 180px;
@@ -284,8 +294,9 @@
         .status-Fechado { background-color: #eaf2d1; color: #5a701b; }
         .status-Aberta { background-color: #f8d7da; color: #721c24; }
         .status-Informativo { background-color: #d1ecf1; color: #0c5460; }
-        .status-Em-análise { background-color: #fff3cd; color: #856404; }
-        .status-Crítica { background-color: #f5c6cb; color: var(--cor-critico); }
+        .status-Em-analise { background-color: #fff3cd; color: #856404; }
+        .status-Critica { background-color: #FF2800; color: #ffffff; }
+        
         td .status-badge {
             padding: 5px 10px;
             border-radius: 12px;
@@ -294,15 +305,15 @@
         }
 
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.5); 
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
         }
 
         .modal-content {
@@ -359,10 +370,11 @@
             margin-top: 40px;
         }
         
+        /* Estilo para o texto do rodapé */
         footer p {
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 0; /* Padding removido do <p> e mantido no <footer> */
             color: #555;
             font-size: 0.9em;
         }
@@ -374,55 +386,84 @@
             }
         }
         
-        /* --- ESTILOS PARA RELATÓRIOS ESPECÍFICOS --- */
+        /* --- NOVOS ESTILOS PARA RELATÓRIOS ESPECÍFICOS --- */
 
-        #tabela-relatorios {
-            width: 100%;
-            border-collapse: collapse;
+        /* Estilos para o novo layout de cards */
+        #cards-relatorios-container {
+            display: grid;
+            grid-template-columns: 1fr; /* 1 coluna por padrão */
+            gap: 15px;
+        }
+
+        .relatorio-card {
             background-color: #fff;
             border-radius: 8px;
-            overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Empilha em mobile */
+            justify-content: space-between;
+            gap: 15px;
+            border-left: 5px solid var(--cor-primaria);
         }
 
-        #tabela-relatorios th,
-        #tabela-relatorios td {
-            padding: 15px 20px;
-            text-align: left;
-            border-bottom: 1px solid #f0f0f0;
-            vertical-align: middle;
-        }
-
-        #tabela-relatorios thead th {
-            background-color: #f8f9fa;
+        .relatorio-card .relatorio-info h3 {
+            margin: 0 0 8px 0;
             color: var(--cor-primaria);
+            font-size: 1.1rem;
+            display: flex; /* Para alinhar o ID e o Título */
+            align-items: center; /* Alinha verticalmente */
+        }
+        
+        /* --- NOVO ESTILO PARA O ID DO RELATÓRIO --- */
+        .relatorio-id {
             font-weight: 600;
+            color: var(--cor-primaria);
+            background-color: #e9ecef; /* Cinza claro do footer */
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em; /* Um pouco menor que o título */
+            margin-right: 10px; /* Espaço entre o ID e o Título */
+            white-space: nowrap; /* Impede que o ID quebre a linha */
         }
-
-        #tabela-relatorios tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        #tabela-relatorios tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        #tabela-relatorios td:first-child {
-            font-weight: 600;
-            color: #333;
-        }
-        #tabela-relatorios td:nth-child(2) {
+        
+        .relatorio-card .relatorio-info .descricao {
+            margin: 0 0 12px 0;
             font-size: 0.95em;
             color: #555;
-        }
-        #tabela-relatorios td:nth-child(3) {
-            font-size: 0.9em;
-            color: #777;
+            line-height: 1.5;
         }
 
+        .relatorio-card .relatorio-info .data {
+            font-size: 0.9em;
+            color: #777;
+            font-weight: 600;
+        }
+
+        .relatorio-card .action-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0; /* Impede que os botões encolham */
+        }
+        
+        /* Media query para telas maiores, colocar botões ao lado */
+        @media (min-width: 768px) {
+            .relatorio-card {
+                flex-direction: row; /* Lado a lado em telas maiores */
+                align-items: center;
+            }
+            .relatorio-card .action-buttons {
+                justify-content: center; /* Centraliza os botões no espaço deles */
+                width: 150px; /* Largura fixa como na tabela original */
+            }
+        }
+
+
+        /* Estilos para os botões de ação com ícones */
         .action-buttons {
             display: flex;
-            justify-content: center;
+            /* justify-content: center; */ /* Removido para alinhar à esquerda no card */
             align-items: center;
             gap: 12px;
         }
@@ -442,7 +483,7 @@
         .action-btn svg {
             width: 20px;
             height: 20px;
-            fill: #555;
+            fill: #28a745; /* <-- MUDANÇA: Cor verde */
             transition: fill 0.2s;
         }
 
@@ -450,28 +491,29 @@
             transform: scale(1.1);
         }
 
-        .action-btn.btn-view:hover { background-color: #e6f0ff; }
-        .action-btn.btn-view:hover svg { fill: #0056b3; }
+        .action-btn.btn-view:hover { background-color: #e4f8e5; } /* <-- MUDANÇA: Fundo verde claro */
+        .action-btn.btn-view:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
 
         .action-btn.btn-download:hover { background-color: #e4f8e5; }
-        .action-btn.btn-download:hover svg { fill: #28a745; }
+        .action-btn.btn-download:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
 
-        .action-btn.btn-share:hover { background-color: #fff3cd; }
-        .action-btn.btn-share:hover svg { fill: #856404; }
+        .action-btn.btn-share:hover { background-color: #e4f8e5; } /* <-- MUDANÇA: Fundo verde claro */
+        .action-btn.btn-share:hover svg { fill: #1e7e34; } /* <-- MUDANÇA: Verde escuro */
 
+        /* Estilos para o novo modal de PDF */
         #pdfViewModal .modal-content {
             width: 90%;
             max-width: 1200px;
-            height: 90vh;
-            padding: 10px;
-            background-color: #333;
+            height: 90vh; /* 90% da altura da tela */
+            padding: 10px; /* Reduz o padding para dar mais espaço ao iframe */
+            background-color: #333; /* Fundo escuro para o modal */
         }
 
         #pdfViewModal .close-button {
             position: absolute;
-            top: 15px;
-            right: 25px;
-            color: #fff;
+            top: 15px; /* Ajustado para o novo padding */
+            right: 25px; /* Ajustado para o novo padding */
+            color: #fff; /* Botão de fechar branco */
             font-size: 35px;
             opacity: 0.8;
         }
@@ -481,22 +523,137 @@
 
         #pdf-view-iframe {
             width: 100%;
-            height: calc(100% - 15px);
+            height: calc(100% - 15px); /* Ajusta altura para o padding */
             border: 1px solid #555;
             background-color: #fff;
+        }
+        
+        
+        /* --- NOVOS ESTILOS DE UX INTEGRADOS --- */
+
+        /* Estilos da Tela de Carregamento */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cor-fundo);
+            display: none; /* Inicia oculto, JS controla a exibição */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .loading-content p {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro);
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--cor-primaria); /* Usa a cor primária original */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Caixas de Texto - Feedback Visual */
+        input[type="text"],
+        textarea,
+        select {
+          width: 100%;
+          padding: 12px;
+          margin: 8px 0;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 1rem;
+          transition: all 0.3s ease-in-out;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+          border-color: var(--cor-primaria);
+          outline: none;
+          box-shadow: 0 0 8px rgba(1, 69, 92, 0.2); /* Sombra com a cor primária original */
+        }
+        
+        /* Hover suave para tabela e cards */
+        #dataTable tbody tr:hover,
+        .relatorio-card:hover {
+            background-color: #f8f9fa; /* Um cinza bem claro */
+            transform: scale(1.005);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+
+        /* Modal - Transição Suave */
+        .modal {
+          transition: opacity 0.3s ease-in-out;
+        }
+        
+        .modal-content {
+             transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Animação do modal reescrita para usar a classe 'show' que o JS pode adicionar */
+        .modal {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Scrollbar Customizado */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: var(--cor-primaria);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--cor-secundaria); /* Hover com a cor secundária */
         }
         
     </style>
 </head>
 <body>
 
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Carregando conteúdo, por favor aguarde...</p>
+      </div>
+    </div>
+
     <header>
-        <div class="logo">Análise de Ações</div>
+        <div class="logo">Qualidade e Segurança</div>
         <nav>
             <ul>
                 <li><a id="nav-home" class="active">Página Principal</a></li>
-                <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li>
-                <li><a id="nav-report">Relatório</a></li>
+                <li><a id="nav-dashboard">Ata de Reunião - Dashboard</a></li> <li><a id="nav-report">Relatório</a></li>
                 <li><a id="nav-apontamentos">Apontamentos</a></li>
                 <li><a id="nav-relatorios-especificos">Relatórios Específicos</a></li>
             </ul>
@@ -505,11 +662,11 @@
 
     <main id="landing-page">
         <section class="hero">
-            <h1>Gestão de Ações - Ata de Reunião</h1>
+            <h1>Gestão da Qualidade e Segurança</h1>
             <p>
-                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento, e facilitar a tomada de decisão baseada em dados.
+                Este portal centraliza e processa os dados de atas de reunião, convertendo-os em um dashboard interativo. A ferramenta foi concebida para monitorizar o estado das pendências, analisar o desempenho através de indicadores chave (KPIs) como o tempo médio de atendimento da construtora. É possível ter acesso ao último relatório da reunião e aos relatórios específicos enviados.
             </p>
-            <a id="cta-button" class="cta-button">Acessar o Ata de Reunião - Dashboard</a>
+            <a id="cta-button" class="cta-button">Acessar</a>
         </section>
     </main>
 
@@ -574,11 +731,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 20px;">Carregando dados...</td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -586,13 +739,13 @@
     <div id="report-page" class="container" style="display: none;">
         <h1>Relatório de Segurança e Qualidade</h1>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-             <p style="margin: 0;">Visualização do documento PDF: <strong>19-CTP-REUNIÃO ST_QUALIDADE_2025_11_03</strong></p>
+             <p style="margin: 0;">Visualização do documento PDF: <strong>18-CTP-REUNIÃO ST_QUALIDADE_2025_10_20.pdf</strong></p>
              <button id="btn-fullscreen-pdf" style="padding: 8px 15px; background-color: var(--cor-primaria); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Maximizar</button>
         </div>
         
         <div id="pdf-container" class="pdf-viewer-container" style="height: 90vh; border: 1px solid #ccc; background: #525659;">
             <iframe 
-                src="19-CTP-REUNIÃO ST_QUALIDADE_2025_11_03.pdf" 
+                src="18-CTP-REUNIÃO ST_QUALIDADE_2025_10_20.pdf" 
                 type="application/pdf" 
                 width="100%" 
                 height="100%"
@@ -600,7 +753,7 @@
                 allowfullscreen> <p style="padding: 20px; color: white; text-align: center;">
                     O seu navegador não suporta a visualização de PDFs incorporados.
                     <br>
-                    <a href="19-CTP-REUNIÃO ST_QUALIDADE_2025_11_03" style="color: #9FC419; font-weight: bold;">
+                    <a href="18-CTP-REUNIÃO ST_QUALIDADE_2025_10_20.pdf" style="color: #9FC419; font-weight: bold;">
                         Clique aqui para baixar o PDF
                     </a>.
                 </p>
@@ -609,8 +762,9 @@
     </div>
     
     <div id="apontamentos-page" class="container" style="display: none;">
+        <h1>Apontamentos</h1>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-             <h1>Apontamentos</h1>
+             <p style="margin: 0;"><strong></strong></p>
              <button id="btn-fullscreen-external" style="padding: 8px 15px; background-color: var(--cor-primaria); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Maximizar</button>
         </div>
 
@@ -633,24 +787,10 @@
     </div>
     <div id="relatorios-especificos-page" class="container" style="display: none;">
         <h1>Relatórios Específicos</h1>
-        <p>Repositório de documentos técnicos, laudos e relatórios específicos do projeto.</p>
+        <p>Repositório de relatórios específicos do projeto.</p>
         
-        <div class="table-container">
-            <table id="tabela-relatorios">
-                <thead>
-                    <tr>
-                        <th>Relatório</th>
-                        <th>Descrição</th>
-                        <th>Data</th>
-                        <th style="width: 150px; text-align: center;">Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-relatorios-tbody">
-                    <tr>
-                        <td colspan="4" style="text-align: center; padding: 20px;">Carregando relatórios...</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="table-container" style="overflow-x: hidden;"> <div id="cards-relatorios-container" style="padding-top: 10px;">
+                </div>
         </div>
     </div>
     <div id="detailsModal" class="modal">
@@ -671,34 +811,65 @@
         </div>
     </div>
     <footer>
-        <p>Felipe Luz - Desenvolvimento</p>
+        <p style="text-align: center; margin: 0; padding: 1rem; color: #555; font-size: 0.9em;">Felipe Luz - Desenvolvimento</p>
     </footer>
 
 <script>
-    // --- ÍCONES SVG ---
+    // --- NOVOS ÍCONES SVG ---
     const iconView = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 2c-4.001 0-7.271 2.91-8.129 7C4.729 16.09 7.999 19 12 19s7.271-2.91 8.129-7C19.271 7.91 16.001 5 12 5zm0 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`;
     const iconDownload = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"/></svg>`;
     const iconShare = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18 8c.552 0 1 .448 1 1v11.008c0 .55-.448.992-1 .992H6c-.552 0-1-.448-1-.992V9c0-.552.448-1 1-1h3V6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V8h3zM8 8h8V7.5h-4V8H8v11h8V9H8v9zm5-4.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V5h2V3.5zM7 11h2v2H7v-2zm0 3h2v2H7v-2zm0 3h2v2H7v-2z"/></svg>`;
     
-    // ### DADOS DA ATA INICIALIZADOS COMO VAZIOS ###
-    let rawData = [];
+    // --- INÍCIO DA MODIFICAÇÃO ---
+    
+    // DADOS ATUAIS DO SEU ARQUIVO
+    let rawData = []; // Inicia vazio
 
-    // --- FUNÇÃO PARA CARREGAR RELATÓRIOS ESPECÍFICOS ---
+    // --- NOVA FUNÇÃO PARA CARREGAR DADOS DA ATA ---
+    async function carregarDadosAta() {
+        try {
+            // Carrega o arquivo JSON
+            const response = await fetch('ATA.json'); 
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar ATA.json: ${response.statusText}`);
+            }
+            // Atribui os dados à variável global
+            rawData = await response.json(); 
+            console.log("Dados da ATA carregados com sucesso.", rawData.length, "itens.");
+        } catch (error) {
+            console.error("Falha ao carregar dados da ATA:", error);
+            // Mostra um erro na página do dashboard se falhar
+            const dashboardPage = document.getElementById('dashboard-page');
+            if(dashboardPage) {
+                dashboardPage.innerHTML = `<h1 style="color: var(--cor-alerta); text-align: center; padding: 20px;">Falha ao carregar os dados (ATA.json).</h1><p style="text-align: center;">Verifique o console para mais detalhes (F12).</p>`;
+            }
+        }
+    }
+
+    // --- FIM DA MODIFICAÇÃO ---
+
+
+    // --- NOVA FUNÇÃO PARA CARREGAR RELATÓRIOS ---
     async function carregarTabelaRelatorios() {
-        const tbody = document.getElementById('tabela-relatorios-tbody');
-        if (!tbody) return; 
+        // MUDANÇA: Alvo agora é o container de cards
+        const container = document.getElementById('cards-relatorios-container');
+        if (!container) return; // Sai se o container não estiver na página
 
         try {
-            const response = await fetch('Manifest.json'); // Carrega o manifesto de relatórios
+            // --- ALTERAÇÃO AQUI: Carregando 'Manifest.json' ---
+            const response = await fetch('Manifest.json'); 
             if (!response.ok) {
                 throw new Error(`Erro ao carregar o manifesto: ${response.statusText}`);
             }
             const relatorios = await response.json();
 
-            tbody.innerHTML = ''; 
+            // Limpa o "Carregando..."
+            container.innerHTML = ''; 
 
+            // Popula o container com cards
             if (relatorios.length > 0) {
                 relatorios.forEach(relatorio => {
+                    // Formata a data (opcional)
                     let dataFormatada = 'N/A';
                     if (relatorio.data) {
                         try {
@@ -706,12 +877,18 @@
                         } catch (e) { console.warn("Data inválida:", relatorio.data); }
                     }
 
-                    const row = `
-                        <tr>
-                            <td>${relatorio.titulo || 'Sem Título'}</td>
-                            <td>${relatorio.descricao || 'Sem descrição'}</td>
-                            <td>${dataFormatada}</td>
-                            <td class="action-buttons">
+                    // MUDANÇA: Template de 'row' (linha) para 'card' (cartão)
+                    const card = `
+                        <div class="relatorio-card">
+                            <div class="relatorio-info">
+                                <h3>
+                                    <span class="relatorio-id">${relatorio.id || 'N/A'}</span>
+                                    ${relatorio.titulo || 'Sem Título'}
+                                </h3>
+                                <p class="descricao">${relatorio.descricao || 'Sem descrição'}</p>
+                                <span class="data">${dataFormatada}</span>
+                            </div>
+                            <div class="action-buttons">
                                 <button class="action-btn btn-view" title="Visualizar" data-url="${relatorio.url}">
                                     ${iconView}
                                 </button>
@@ -721,22 +898,49 @@
                                 <button class="action-btn btn-share" title="Compartilhar" data-url="${relatorio.url}" data-title="${relatorio.titulo || 'Relatório'}">
                                     ${iconShare}
                                 </button>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     `;
-                    tbody.innerHTML += row;
+                    container.innerHTML += card;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Nenhum relatório encontrado no manifesto.</td></tr>';
+                // MUDANÇA: Mensagem de "Nenhum relatório" adaptada para o container
+                container.innerHTML = '<p style="text-align: center; padding: 20px;">Nenhum relatório encontrado no manifesto.</p>';
             }
         } catch (error) {
             console.error("Falha ao carregar relatórios:", error);
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (Manifest.json). Verifique o console.</td></tr>`;
+            // MUDANÇA: Mensagem de erro adaptada para o container
+            container.innerHTML = `<p style="text-align: center; padding: 20px; color: var(--cor-alerta);">Falha ao carregar manifesto (Manifest.json). Verifique o console.</p>`;
         }
     }
 
+    // --- NOVAS FUNÇÕES DE CARREGAMENTO ---
+    // Função para mostrar a tela de carregamento
+    function showLoading() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.display = 'flex'; // Exibe a tela de carregamento
+        loadingScreen.style.opacity = '1';
+      }
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // Função para ocultar a tela de carregamento
+    function hideLoading() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0'; // Animação de fade-out
+        setTimeout(() => {
+          loadingScreen.style.display = 'none'; // Remove completamente após a animação
+        }, 300); // Tempo igual à duração da transição no CSS
+      }
+    }
+    // --- FIM DAS NOVAS FUNÇÕES ---
+
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        
+        showLoading(); // <-- MOSTRAR CARREGAMENTO
+
         // --- SELETORES DE NAVEGAÇÃO E PÁGINAS (ATUALIZADOS) ---
         const navHome = document.getElementById('nav-home');
         const navDashboard = document.getElementById('nav-dashboard');
@@ -752,13 +956,14 @@
         
         const ctaButton = document.getElementById('cta-button');
 
-        // --- SELETORES PARA MODAIS E TABELA DE RELATÓRIOS ---
+        // --- NOVOS SELETORES PARA MODAL DE PDF E TABELA ---
         const pdfViewModal = document.getElementById('pdfViewModal');
         const closePdfModalBtn = document.getElementById('close-pdf-modal');
         const pdfIframe = document.getElementById('pdf-view-iframe');
-        const tabelaRelatoriosBody = document.getElementById('tabela-relatorios-tbody');
+        // MUDANÇA: Seletor do body da tabela atualizado para o container de cards
+        const relatoriosContainer = document.getElementById('cards-relatorios-container');
         
-        // --- SELETORES PARA MAXIMIZAR SITE EXTERNO ---
+        // --- NOVOS SELETORES PARA MAXIMIZAR SITE EXTERNO ---
         const fullscreenExternalBtn = document.getElementById('btn-fullscreen-external');
         const externalSiteContainer = document.getElementById('external-site-container');
 
@@ -981,7 +1186,7 @@
                             switch (status) {
                                 case 'Fechado': return '#9FC419';
                                 case 'Aberta': return '#dc3545';
-                                case 'Crítica': return '#b30000';
+                                case 'Crítica': return '#FF2800'; /* <-- COR ALTERADA */
                                 case 'Informativo': return '#6c757d';
                                 case 'Em análise': return '#ffc107';
                                 default: return '#cccccc';
@@ -1091,96 +1296,50 @@
         }
         
         // --- FUNÇÕES DE UPLOAD REMOVIDAS ---
-
-        function resetAndReloadDashboard() {
-             const statusOptions = document.getElementById('statusFilter')?.querySelector('.options-container');
-            const temaOptions = document.getElementById('temaFilter')?.querySelector('.options-container');
-            const assuntoOptions = document.getElementById('assuntoFilter')?.querySelector('.options-container');
-
-            if (statusOptions) statusOptions.innerHTML = '';
-            if (temaOptions) temaOptions.innerHTML = '';
-            if (assuntoOptions) assuntoOptions.innerHTML = '';
-
-            document.querySelectorAll('.multiselect .select-box span').forEach((span) => {
-                const parentId = span.closest('.multiselect')?.id;
-                if (parentId === 'statusFilter') span.textContent = 'Todos os Status';
-                else if (parentId === 'temaFilter') span.textContent = 'Todos os Temas';
-                else if (parentId === 'assuntoFilter') span.textContent = 'Todos os Assuntos';
-            });
-            
-             document.querySelectorAll('.multiselect input[type="checkbox"]').forEach(cb => cb.checked = false);
-
-            populateFilters();
-            updateDashboard();
-        }
-
+        // handleFileUpload, parseCSV, resetAndReloadDashboard
 
         Chart.register(ChartDataLabels);
         
-        // --- ### FUNÇÃO DE INICIALIZAÇÃO ATUALIZADA ### ---
-        async function initializeDashboard() {
-            // Garante que os elementos do dashboard existam
+        // --- Inicialização do Dashboard ---
+        function initializeDashboard() {
             if(document.getElementById('dashboard-page') && document.getElementById('statusFilter')) {
-                
-                // --- NOVO: Carregar dados do ATA.json ---
-                try {
-                    const response = await fetch('ATA.json'); // Carrega o arquivo
-                    if (!response.ok) {
-                        throw new Error(`Erro ao carregar ATA.json: ${response.statusText}`);
-                    }
-                    rawData = await response.json(); // Popula a variável global
-                    
-                    if (rawData.length === 0) {
-                         console.warn("ATA.json foi carregado, mas está vazio.");
-                         const tableBody = document.querySelector("#dataTable tbody");
-                         if (tableBody) {
-                            tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Arquivo de dados (ATA.json) está vazio.</td></tr>`;
-                         }
-                    }
-                    
-                } catch (error) {
-                    console.error("Falha ao carregar dados da ata:", error);
-                    // Exibe um erro amigável na tabela
-                    const tableBody = document.querySelector("#dataTable tbody");
-                    if (tableBody) {
-                        tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--cor-alerta);">Falha ao carregar dados (ATA.json). Verifique o console.</td></tr>`;
-                    }
-                    return; // Para a execução se os dados falharem
-                }
-                // --- FIM DA ADIÇÃO ---
-
-                populateFilters(); // Popula filtros primeiro
-                setupMultiSelect('statusFilter'); // Configura interatividade dos filtros
+                populateFilters();
+                setupMultiSelect('statusFilter');
                 setupMultiSelect('temaFilter');
                 setupMultiSelect('assuntoFilter');
-                updateDashboard(); // Renderiza KPIs, gráficos e tabela
+                updateDashboard();
             } else {
                 console.error("Elementos do dashboard não encontrados para inicialização.");
             }
         }
 
-        // --- CARREGAMENTO INICIAL (ATUALIZADO) ---
-        (async () => {
-            // Garante que o dashboard seja inicializado se for a página ativa no carregamento
-            if (dashboardPage && dashboardPage.style.display !== 'none') {
-                await initializeDashboard(); // Aguarda o carregamento dos dados
-            }
-            // Carrega a tabela de relatórios específicos assim que a página é carregada
-            carregarTabelaRelatorios(); 
-        })();
+        // --- INÍCIO DA MODIFICAÇÃO DO CARREGAMENTO ---
+        
+        // 1. Carrega AMBOS os arquivos de dados primeiro (em paralelo)
+        await Promise.all([
+            carregarDadosAta(),         // <-- NOVO: Espera os dados da ATA
+            carregarTabelaRelatorios()  // <-- Espera os dados dos Relatórios
+        ]);
 
-
-        // Listener para inicializar o dashboard quando ele for exibido pela navegação (ATUALIZADO)
+        // 2. Agora que 'rawData' está populado, inicializa o dashboard
+        // Garante que o dashboard seja inicializado se for a página ativa no carregamento
+        if (dashboardPage && dashboardPage.style.display !== 'none') {
+            initializeDashboard(); // <-- Agora é seguro chamar isso
+        }
+        
+        // Listener para inicializar o dashboard quando ele for exibido pela navegação
         if (navDashboard) {
-            navDashboard.addEventListener('click', async (e) => { // Tornar async
+            navDashboard.addEventListener('click', (e) => {
                  e.preventDefault();
-                // Carrega os dados e inicializa apenas na primeira vez que for clicado
-                if (rawData.length === 0 && !statusChart) { // Verifica se rawData está vazio
-                    await initializeDashboard(); // Aguarda o carregamento
+                if (!statusChart) { // Inicializa apenas na primeira vez
+                    initializeDashboard();
                 }
                 showPage('dashboard-page');
             });
         }
+        
+        // --- FIM DA MODIFICAÇÃO DO CARREGAMENTO ---
+
 
         if (resetBtn) { 
             resetBtn.addEventListener('click', () => {
@@ -1201,7 +1360,7 @@
         // Listener para o modal de detalhes da tabela principal
         const tableBody = document.querySelector("#dataTable tbody");
         const modal = document.getElementById('detailsModal');
-        const closeModalBtn = document.querySelector('.close-button');
+        const closeModalBtn = document.querySelector('.close-button'); // Assumindo que este é o do modal de detalhes
         const modalSeq = document.getElementById('modalSeq');
         const modalDesc = document.getElementById('modalDesc');
         const modalAcao = document.getElementById('modalAcao');
@@ -1221,18 +1380,23 @@
                                             ? "Não há ação definida."
                                             : String(itemData.acao);
                     modal.style.display = 'block';
+                    modal.classList.add('show'); // Para nova animação
                 }
             });
         }
          if (closeModalBtn) {
             closeModalBtn.addEventListener('click', () => {
-                if(modal) modal.style.display = 'none';
+                if(modal) {
+                     modal.classList.remove('show');
+                    setTimeout(() => modal.style.display = 'none', 300); // Sincroniza com a transição
+                }
             });
         }
 
         // --- NOVOS LISTENERS PARA A TABELA DE RELATÓRIOS ---
-        if (tabelaRelatoriosBody) {
-            tabelaRelatoriosBody.addEventListener('click', (e) => {
+        // MUDANÇA: Listener agora está no 'relatoriosContainer'
+        if (relatoriosContainer) {
+            relatoriosContainer.addEventListener('click', (e) => {
                 const target = e.target; // O elemento exato clicado (pode ser o SVG ou o PATH)
 
                 // Ação: Visualizar PDF
@@ -1241,7 +1405,10 @@
                     e.preventDefault();
                     const url = viewBtn.dataset.url;
                     if (pdfIframe) pdfIframe.src = url;
-                    if (pdfViewModal) pdfViewModal.style.display = 'block';
+                    if (pdfViewModal) {
+                        pdfViewModal.style.display = 'block';
+                        pdfViewModal.classList.add('show');
+                    }
                 }
 
                 // Ação: Baixar PDF
@@ -1292,8 +1459,13 @@
         // Ação: Fechar o novo modal de PDF
         if (closePdfModalBtn) {
             closePdfModalBtn.addEventListener('click', () => {
-                if (pdfViewModal) pdfViewModal.style.display = 'none';
-                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe para parar o carregamento
+                if (pdfViewModal) {
+                    pdfViewModal.classList.remove('show');
+                    setTimeout(() => {
+                        pdfViewModal.style.display = 'none';
+                        if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                    }, 300);
+                }
             });
         }
 
@@ -1343,17 +1515,23 @@
             }
             // Fecha modal de detalhes
             if (modal && event.target == modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
             }
             // Fecha novo modal de PDF
             if (pdfViewModal && event.target == pdfViewModal) {
-                pdfViewModal.style.display = 'none';
-                if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                pdfViewModal.classList.remove('show');
+                setTimeout(() => {
+                    pdfViewModal.style.display = 'none';
+                    if (pdfIframe) pdfIframe.src = ''; // Limpa o iframe
+                }, 300);
             }
         });
+        
+        hideLoading(); // <-- OCULTAR CARREGAMENTO
+
     });
 </script>
 
 </body>
 </html>
-
